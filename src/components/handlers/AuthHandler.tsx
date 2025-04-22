@@ -1,22 +1,29 @@
 import { useSessionStore } from "@/store/SessionStore";
 import { supabase } from "@/lib/supabase";
 import { router, useSegments } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function AuthHandler() {
-  // Supabase Login
   const segments = useSegments();
 
   const { isInitializing, getSession, session, setSession, setIsInitializing } =
     useSessionStore();
 
+  const hasCheckedOnboarding = useRef(false);
+
   useEffect(() => {
     getSession();
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setIsInitializing(false);
-    });
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        setIsInitializing(false);
+      }
+    );
+
+    return () => {
+      authListener.subscription.unsubscribe(); // clean up
+    };
   }, []);
 
   useEffect(() => {
@@ -26,6 +33,12 @@ export default function AuthHandler() {
 
     // Check if user is onboarded
     (async () => {
+      if (hasCheckedOnboarding.current) {
+        const inTabsGroup = segments[0] === "(private)";
+        if (session && !inTabsGroup) router.replace("/(private)/(tabs)");
+        return;
+      }
+
       const { data: userData } = await supabase
         .from("profiles")
         .select("username")
@@ -36,6 +49,8 @@ export default function AuthHandler() {
       if (!userData?.username) {
         router.replace("/(private)/(onboarding)/user-name");
       } else {
+        hasCheckedOnboarding.current = true;
+
         const inTabsGroup = segments[0] === "(private)";
         if (session && !inTabsGroup) router.replace("/(private)/(tabs)");
       }
