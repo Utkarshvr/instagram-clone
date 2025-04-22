@@ -13,37 +13,27 @@
       "splash": {
         "image": "./src/assets/icons/insta-logo-rounded.png",
         "resizeMode": "cover",
-        "backgroundColor": "#000000",
+        "backgroundColor": "#0a0a0a",
         "dark": {
           "image": "./src/assets/icons/insta-logo-rounded.png",
           "resizeMode": "cover",
-          "backgroundColor": "#000000"
-        },
-        "light": {
-          "image": "./src/assets/icons/insta-logo-rounded.png",
-          "resizeMode": "cover",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#0a0a0a"
         }
       }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/icons/insta-logo-rounded.png",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#0a0a0a"
       },
       "splash": {
         "image": "./src/assets/icons/insta-logo-rounded.png",
         "resizeMode": "cover",
-        "backgroundColor": "#000000",
+        "backgroundColor": "#0a0a0a",
         "dark": {
           "image": "./src/assets/icons/insta-logo-rounded.png",
           "resizeMode": "cover",
-          "backgroundColor": "#000000"
-        },
-        "light": {
-          "image": "./src/assets/icons/insta-logo-rounded.png",
-          "resizeMode": "cover",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#0a0a0a"
         }
       },
       "package": "com.utkarshh.instagram"
@@ -61,7 +51,7 @@
           "image": "./src/assets/icons/insta-logo-rounded.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000000"
+          "backgroundColor": "#0a0a0a"
         }
       ],
       "expo-asset"
