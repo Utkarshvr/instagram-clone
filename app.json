@@ -1,38 +1,70 @@
 {
   "expo": {
-    "name": "instagram-supabase",
-    "slug": "instagram-supabase",
+    "name": "Instagram",
+    "slug": "instagram",
+    "scheme": "instagram",
+    "icon": "./src/assets/icons/insta-logo-rounded.png",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "splash": {
+        "image": "./src/assets/icons/insta-logo-rounded.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#000000",
+        "dark": {
+          "image": "./src/assets/icons/insta-logo-rounded.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#000000"
+        },
+        "light": {
+          "image": "./src/assets/icons/insta-logo-rounded.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#ffffff"
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./src/assets/icons/insta-logo-rounded.png",
+        "backgroundColor": "#000000"
+      },
+      "splash": {
+        "image": "./src/assets/icons/insta-logo-rounded.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#000000",
+        "dark": {
+          "image": "./src/assets/icons/insta-logo-rounded.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#000000"
+        },
+        "light": {
+          "image": "./src/assets/icons/insta-logo-rounded.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#ffffff"
+        }
+      },
+      "package": "com.utkarshh.instagram"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./src/assets/icons/insta-logo-rounded.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#000000"
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true
