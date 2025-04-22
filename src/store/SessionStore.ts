@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { UserInfoType } from "@/types/supabase-schema-types";
+import { ProfileType } from "@/types/supabase-schema-types";
 import { Session } from "@supabase/supabase-js";
 import { create } from "zustand";
 
@@ -12,8 +12,8 @@ interface SessionState {
 
   getSession: () => void;
 
-  userInfo: UserInfoType | null;
-  setUserInfo: (userInfo: UserInfoType) => void;
+  profile: ProfileType | null;
+  setProfile: (profile: ProfileType) => void;
 }
 
 export const useSessionStore = create<SessionState>()((set) => ({
@@ -37,6 +37,6 @@ export const useSessionStore = create<SessionState>()((set) => ({
     });
   },
 
-  userInfo: null,
-  setUserInfo: (userInfo: UserInfoType) => set((state) => ({ userInfo })),
+  profile: null,
+  setProfile: (profile: ProfileType) => set((state) => ({ profile })),
 }));

@@ -1,15 +1,11 @@
-export interface UserInfoType {
+export interface ProfileType {
   id: string;
+  created_at: string;
+
   name: string;
   email: string;
-  braces_start_date: string;
-  braces_end_date: string;
-
-  clinic_info?: {
-    doctor_name: string;
-    clinic_name: string;
-    address: string;
-    notes: string;
-    phones: { key: string; name: string; number: string }[];
-  };
+  phone: string;
+  avatar_url: string;
+  bio: string;
+  is_account_private: boolean;
 }

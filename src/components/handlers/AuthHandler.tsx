@@ -6,8 +6,14 @@ import { useEffect, useRef } from "react";
 export default function AuthHandler() {
   const segments = useSegments();
 
-  const { isInitializing, getSession, session, setSession, setIsInitializing } =
-    useSessionStore();
+  const {
+    isInitializing,
+    getSession,
+    session,
+    setSession,
+    setIsInitializing,
+    setProfile,
+  } = useSessionStore();
 
   const hasCheckedOnboarding = useRef(false);
 
@@ -39,13 +45,15 @@ export default function AuthHandler() {
         return;
       }
 
-      const { data: userData } = await supabase
+      const { data: profileData } = await supabase
         .from("profiles")
-        .select("username")
+        .select("*")
         .eq("id", session?.user?.id)
         .single();
 
-      if (!userData?.username) {
+      setProfile(profileData);
+
+      if (!profileData?.username) {
         router.replace("/(private)/(onboarding)/user-name");
       } else {
         hasCheckedOnboarding.current = true;
