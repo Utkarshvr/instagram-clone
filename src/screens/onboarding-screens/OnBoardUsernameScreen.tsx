@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { useSessionStore } from "@/store/SessionStore";
+import { ProfileType } from "@/types/supabase-schema-types";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -14,15 +15,14 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function OnBoardUsernameScreen() {
+  const { setProfile, profile, session } = useSessionStore();
+
   const [form_value, setform_value] = useState({
     username: "",
   });
 
   const isFormValid = form_value.username.length > 0;
   const [isCreatingUsername, setIsCreatingUsername] = useState(false);
-  const { session } = useSessionStore();
-
-  console.log(session?.user?.id);
 
   async function createUsername() {
     setIsCreatingUsername(true);
@@ -50,6 +50,14 @@ export default function OnBoardUsernameScreen() {
       25,
       50
     );
+
+    setProfile({
+      ...profile,
+      id: session?.user?.id,
+      email: session?.user?.email,
+      phone: session?.user?.phone,
+      username: form_value.username,
+    } as ProfileType);
 
     // Replace the current screen with the home screen after creating the username
     router.replace("/");

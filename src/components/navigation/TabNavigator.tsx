@@ -3,6 +3,8 @@
 // import { Ionicons } from "@expo/vector-icons";
 // import { Colors } from "react-native-ui-lib";
 
+import { Tabs } from "expo-router";
+
 // // Strict typing for Ionicon names (you can extend this as needed)
 // type IoniconName =
 //   | "home"
@@ -40,37 +42,35 @@
 //   },
 // ];
 
-// export default function TabNavigator() {
-//   useAppearanceSchemeStore();
-
-//   return (
-//     <Tabs
-//       screenOptions={{
-//         headerShown: false,
-//         tabBarActiveTintColor: Colors.$textDefault,
-//         tabBarStyle: {
-//           backgroundColor: Colors.$backgroundDefault,
-//           borderTopWidth: 0,
-//         },
-//       }}
-//       initialRouteName="home"
-//     >
-//       {tabs.map(({ name, icon, iconOutline }) => (
-//         <Tabs.Screen
-//           key={name}
-//           name={name}
-//           options={{
-//             tabBarIcon: ({ color, focused, size }) => (
-//               <Ionicons
-//                 name={focused ? icon : iconOutline}
-//                 size={size}
-//                 color={color}
-//               />
-//             ),
-//             tabBarLabel: "",
-//           }}
-//         />
-//       ))}
-//     </Tabs>
-//   );
-// }
+export default function TabNavigator() {
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#fafafa",
+        tabBarStyle: {
+          backgroundColor: "#0a0a0a",
+          borderTopWidth: 0,
+        },
+      }}
+      initialRouteName="home"
+    >
+      {/* {tabs.map(({ name, icon, iconOutline }) => (
+        <Tabs.Screen
+          key={name}
+          name={name}
+          options={{
+            tabBarIcon: ({ color, focused, size }) => (
+              <Ionicons
+                name={focused ? icon : iconOutline}
+                size={size}
+                color={color}
+              />
+            ),
+            tabBarLabel: "",
+          }}
+        />
+      ))} */}
+    </Tabs>
+  );
+}
