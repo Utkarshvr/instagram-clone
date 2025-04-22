@@ -29,7 +29,12 @@ export const useSessionStore = create<SessionState>()((set) => ({
     const {
       data: { session },
     } = await supabase.auth.getSession();
-    set({ session });
+    set((state) => {
+      if (state.session?.access_token !== session?.access_token) {
+        return { session };
+      }
+      return {};
+    });
   },
 
   userInfo: null,
