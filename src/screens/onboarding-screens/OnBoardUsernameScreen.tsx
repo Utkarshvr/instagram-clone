@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { useSessionStore } from "@/store/SessionStore";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -49,6 +50,9 @@ export default function OnBoardUsernameScreen() {
       25,
       50
     );
+
+    // Replace the current screen with the home screen after creating the username
+    router.replace("/");
   }
 
   return (
