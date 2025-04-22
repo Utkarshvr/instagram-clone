@@ -44,7 +44,6 @@ export default function AuthHandler() {
         .select("username")
         .eq("id", session?.user?.id)
         .single();
-      console.log({ userData });
 
       if (!userData?.username) {
         router.replace("/(private)/(onboarding)/user-name");
