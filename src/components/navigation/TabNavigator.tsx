@@ -4,6 +4,7 @@ import { Image, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { supabase } from "@/lib/supabase";
 import { useSessionStore } from "@/store/SessionStore";
+import * as Haptics from "expo-haptics";
 
 export default function TabNavigator() {
   const { profile } = useSessionStore();
@@ -60,10 +61,10 @@ export default function TabNavigator() {
               name={focused ? "search" : "search-outline"}
               size={26}
               color={color}
-              // onLongPress={() => {
-              //   Haptics.selectionAsync();
-              //   router.push("/explore/search");
-              // }}
+              onLongPress={() => {
+                Haptics.selectionAsync();
+                router.push("/explore/search");
+              }}
             />
           ),
         }}
