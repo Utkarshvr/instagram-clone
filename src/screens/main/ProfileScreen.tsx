@@ -16,6 +16,7 @@ import { ProfileType } from "@/types/supabase-schema-types";
 import LoadingScreen from "../common/LoadingScreen";
 import { useSessionStore } from "@/store/SessionStore";
 import ErrorScreen from "../common/ErrorScreen";
+import { FollowButton } from "@/components/core/FollowBtn";
 type Props = {
   profile_id: string | null | undefined;
 };
@@ -167,50 +168,19 @@ const ProfileScreen = ({ profile_id }: Props) => {
           </View>
         </View>
 
-        {
-          isMyProfile ? (
-            <Link asChild href={"/edit-profile"}>
-              <TouchableOpacity>
-                <View
-                  className={`bg-neutral-700 p-2 rounded-md w-full items-center`}
-                >
-                  <Text className="font-mont text-white">Edit Profile</Text>
-                </View>
-              </TouchableOpacity>
-            </Link>
-          ) : null
-          // <TouchableOpacity
-          // // onPress={
-          // //   hasRequested
-          // //     ? removeFollowReq
-          // //     : isFollowed
-          // //     ? unfollowTargetUser
-          // //     : followUser
-          // // }
-          // >
-          //   <View
-          //     className={`${
-          //       isBtnDisabled
-          //         ? "bg-neutral-500"
-          //         : hasRequested || isFollowed
-          //         ? "bg-neutral-600"
-          //         : "bg-sky-500"
-          //     } p-2 rounded-md w-full items-center`}
-          //   >
-          //     {isBtnDisabled ? (
-          //       <ActivityIndicator size={"large"} />
-          //     ) : (
-          //       <Text className="font-montserrat text-neutral-50">
-          //         {hasRequested
-          //           ? "Requested"
-          //           : isFollowed
-          //           ? "Following"
-          //           : "Follow"}
-          //       </Text>
-          //     )}
-          //   </View>
-          // </TouchableOpacity>
-        }
+        {isMyProfile ? (
+          <Link asChild href={"/edit-profile"}>
+            <TouchableOpacity>
+              <View
+                className={`bg-neutral-700 p-2 rounded-md w-full items-center`}
+              >
+                <Text className="font-mont text-white">Edit Profile</Text>
+              </View>
+            </TouchableOpacity>
+          </Link>
+        ) : (
+          <FollowButton targetUserId={profile.id} />
+        )}
       </View>
 
       {/* <View className="w-full flex flex-row flex-wrap">
