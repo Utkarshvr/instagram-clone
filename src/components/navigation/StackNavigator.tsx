@@ -17,16 +17,6 @@ export default function StackNavigator() {
         },
         headerTintColor: "#fafafa",
         animationTypeForReplace: "push",
-
-        headerLeft: () =>
-          canGoBack ? (
-            <TouchableOpacity
-              onPress={() => router.back()}
-              style={{ marginRight: 16 }}
-            >
-              <Ionicons name="arrow-back" size={24} color="white" />
-            </TouchableOpacity>
-          ) : null,
       }}
     >
       <Stack.Screen name="edit-profile" options={{ title: "Edit profile" }} />
