@@ -2,12 +2,13 @@ import { router, Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Image, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { supabase } from "@/lib/supabase";
 import { useSessionStore } from "@/store/SessionStore";
-import * as Haptics from "expo-haptics";
-
+import { useSignOut } from "@/hooks/useSignOut";
 export default function TabNavigator() {
   const { profile } = useSessionStore();
+
+  const { signOut } = useSignOut();
+
   return (
     <Tabs
       screenOptions={{
@@ -130,7 +131,7 @@ export default function TabNavigator() {
           headerRight: () => (
             <TouchableOpacity
               style={{ marginRight: 8 }}
-              onPress={() => supabase.auth.signOut()}
+              onPress={() => signOut()}
             >
               <Ionicons name="log-out-outline" color={"white"} size={24} />
             </TouchableOpacity>

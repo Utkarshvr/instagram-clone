@@ -14,6 +14,8 @@ interface SessionState {
 
   profile: ProfileType | null;
   setProfile: (profile: ProfileType) => void;
+
+  resetSession: () => void;
 }
 
 export const useSessionStore = create<SessionState>()((set) => ({
@@ -39,4 +41,6 @@ export const useSessionStore = create<SessionState>()((set) => ({
 
   profile: null,
   setProfile: (profile: ProfileType) => set((state) => ({ profile })),
+
+  resetSession: () => set(() => ({ session: null, profile: null })),
 }));
