@@ -1,12 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import SearchScreen from "@/screens/main/SearchScreen";
 
-export default function search() {
-  return (
-    <View>
-      <Text>search</Text>
-    </View>
-  )
+export default function Search() {
+  return <SearchScreen />;
 }
-
-const styles = StyleSheet.create({})

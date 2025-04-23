@@ -2,6 +2,7 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Text, View, Dimensions } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
+import useSearchStore from "@/store/useSearchStore";
 
 const dimentions = Dimensions.get("window");
 
@@ -10,7 +11,7 @@ export default function SearchBar({
 }: {
   pushToSearch?: boolean;
 }) {
-  //   const { text, setText } = useSearchStore();
+  const { text, setText } = useSearchStore();
 
   return pushToSearch ? (
     <TouchableOpacity
@@ -26,8 +27,8 @@ export default function SearchBar({
     </TouchableOpacity>
   ) : (
     <TextInput
-      //   onChangeText={(txt) => setText(txt)}
-      //   value={text}
+      onChangeText={(txt) => setText(txt)}
+      value={text}
       className="px-4 py-2 w-full rounded-md bg-neutral-800 text-neutral-50 font-mont"
       placeholder="Search a user"
       placeholderTextColor={"white"}
