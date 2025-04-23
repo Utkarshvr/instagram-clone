@@ -25,6 +25,10 @@ export default function _layout() {
           headerRight: () => <SearchBar />,
         }}
       />
+      <Stack.Screen
+        name="profile/[profile_id]"
+        options={{ title: "Profile" }}
+      />
     </Stack>
   );
 }

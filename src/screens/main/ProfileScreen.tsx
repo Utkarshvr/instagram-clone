@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { ProfileType } from "@/types/supabase-schema-types";
@@ -48,6 +48,18 @@ const ProfileScreen = ({ profile_id }: Props) => {
 
   const isLoading = isFetchingProfile;
   const isMyProfile = profile_id === MyProfile?.id;
+
+  const navigation = useNavigation();
+  useEffect(() => {
+    if (profile)
+      navigation.setOptions({
+        headerTitle: profile.username,
+      });
+    else
+      navigation.setOptions({
+        headerTitle: "",
+      });
+  }, [navigation, profile]);
 
   // Handle Errors & Loading
   if (!profile_id) return <ErrorScreen message="No profile id" />;
@@ -154,48 +166,49 @@ const ProfileScreen = ({ profile_id }: Props) => {
           </View>
         </View>
 
-        {isMyProfile ? (
-          <Link asChild href={"/edit-profile"}>
-            <TouchableOpacity>
-              <View
-                className={`bg-neutral-700 p-2 rounded-md w-full items-center`}
-              >
-                <Text className="font-mont text-white">Edit Profile</Text>
-              </View>
-            </TouchableOpacity>
-          </Link>
-        ) : null
-        // <TouchableOpacity
-        // // onPress={
-        // //   hasRequested
-        // //     ? removeFollowReq
-        // //     : isFollowed
-        // //     ? unfollowTargetUser
-        // //     : followUser
-        // // }
-        // >
-        //   <View
-        //     className={`${
-        //       isBtnDisabled
-        //         ? "bg-neutral-500"
-        //         : hasRequested || isFollowed
-        //         ? "bg-neutral-600"
-        //         : "bg-sky-500"
-        //     } p-2 rounded-md w-full items-center`}
-        //   >
-        //     {isBtnDisabled ? (
-        //       <ActivityIndicator size={"large"} />
-        //     ) : (
-        //       <Text className="font-montserrat text-neutral-50">
-        //         {hasRequested
-        //           ? "Requested"
-        //           : isFollowed
-        //           ? "Following"
-        //           : "Follow"}
-        //       </Text>
-        //     )}
-        //   </View>
-        // </TouchableOpacity>
+        {
+          isMyProfile ? (
+            <Link asChild href={"/edit-profile"}>
+              <TouchableOpacity>
+                <View
+                  className={`bg-neutral-700 p-2 rounded-md w-full items-center`}
+                >
+                  <Text className="font-mont text-white">Edit Profile</Text>
+                </View>
+              </TouchableOpacity>
+            </Link>
+          ) : null
+          // <TouchableOpacity
+          // // onPress={
+          // //   hasRequested
+          // //     ? removeFollowReq
+          // //     : isFollowed
+          // //     ? unfollowTargetUser
+          // //     : followUser
+          // // }
+          // >
+          //   <View
+          //     className={`${
+          //       isBtnDisabled
+          //         ? "bg-neutral-500"
+          //         : hasRequested || isFollowed
+          //         ? "bg-neutral-600"
+          //         : "bg-sky-500"
+          //     } p-2 rounded-md w-full items-center`}
+          //   >
+          //     {isBtnDisabled ? (
+          //       <ActivityIndicator size={"large"} />
+          //     ) : (
+          //       <Text className="font-montserrat text-neutral-50">
+          //         {hasRequested
+          //           ? "Requested"
+          //           : isFollowed
+          //           ? "Following"
+          //           : "Follow"}
+          //       </Text>
+          //     )}
+          //   </View>
+          // </TouchableOpacity>
         }
       </View>
 
