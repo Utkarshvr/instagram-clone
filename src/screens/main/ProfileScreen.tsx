@@ -26,22 +26,23 @@ const ProfileScreen = ({ profile_id }: Props) => {
   const [isFetchingProfile, setIsFetchingProfile] = useState(false);
   const [profile, setProfile] = useState<ProfileType | null>(null);
 
+  const fetchProfile = async () => {
+    setIsFetchingProfile(true);
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", profile_id)
+      .single();
+
+    if (error) return console.log(error);
+
+    setProfile(data);
+    setIsFetchingProfile(false);
+  };
+
   useEffect(() => {
     if (!profile_id) return console.log("No profile id");
-
-    setIsFetchingProfile(true);
-    const fetchProfile = async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", profile_id)
-        .single();
-
-      if (error) return console.log(error);
-
-      setProfile(data);
-      setIsFetchingProfile(false);
-    };
 
     fetchProfile();
   }, [profile_id]);
@@ -71,9 +72,9 @@ const ProfileScreen = ({ profile_id }: Props) => {
     <ScrollView
       className="bg-neutral-950 flex-1"
       // contentContainerStyle={styles.scrollView}
-      // refreshControl={
-      //   <RefreshControl refreshing={refreshing} onRefresh={fetchUser} />
-      // }
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={fetchProfile} />
+      }
     >
       {/* Accept Request */}
       {/* {isReqReceived && (
