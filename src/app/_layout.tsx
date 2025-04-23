@@ -10,6 +10,7 @@ import { useFonts } from "@expo-google-fonts/montserrat";
 import fonts from "@/config/theme/fonts";
 import AuthHandler from "@/components/handlers/AuthHandler";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -24,10 +25,10 @@ export default function _layout() {
 
   return (
     <ActionSheetProvider>
-      <>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <Slot />
         <AuthHandler />
-      </>
+      </GestureHandlerRootView>
     </ActionSheetProvider>
   );
 }

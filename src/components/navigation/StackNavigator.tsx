@@ -1,5 +1,5 @@
 import { Stack, router } from "expo-router";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function StackNavigator() {
@@ -20,12 +20,13 @@ export default function StackNavigator() {
 
         headerLeft: () =>
           canGoBack ? (
-            <TouchableOpacity onPress={() => router.back()} className="mr-4">
+            <TouchableOpacity
+              onPress={() => router.back()}
+              style={{ marginRight: 16 }}
+            >
               <Ionicons name="arrow-back" size={24} color="white" />
             </TouchableOpacity>
           ) : null,
-
-        headerShown: false,
       }}
     >
       <Stack.Screen name="edit-profile" options={{ title: "Edit profile" }} />
