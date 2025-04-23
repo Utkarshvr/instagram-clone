@@ -75,13 +75,3 @@ const decode = (base64: string) => {
   }
   return bytes;
 };
-
-export function shortenString(str: string, maxLength: number) {
-  let newStr = "";
-
-  if (str.length > maxLength) {
-    newStr = str.slice(0, maxLength) + "...";
-  }
-
-  return newStr;
-}
