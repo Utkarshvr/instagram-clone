@@ -30,7 +30,7 @@ export const FollowButton = ({ targetUserId }: Props) => {
         {status === "loading" ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text className="font-montserrat text-neutral-50">
+          <Text className="font-montSemiBold text-neutral-50">
             {status === "accepted"
               ? "Following"
               : status === "pending"
