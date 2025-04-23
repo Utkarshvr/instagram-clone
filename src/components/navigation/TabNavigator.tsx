@@ -61,13 +61,13 @@ export default function TabNavigator() {
               name={focused ? "search" : "search-outline"}
               size={26}
               color={color}
-              onLongPress={() => {
-                Haptics.selectionAsync();
-                router.push("/explore/search");
-              }}
-              onPress={() => {
-                router.push("/explore");
-              }}
+              // onLongPress={() => {
+              //   Haptics.selectionAsync();
+              //   router.push("/explore/search");
+              // }}
+              // onPress={() => {
+              //   router.push("/explore");
+              // }}
             />
           ),
         }}
