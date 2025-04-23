@@ -65,6 +65,9 @@ export default function TabNavigator() {
                 Haptics.selectionAsync();
                 router.push("/explore/search");
               }}
+              onPress={() => {
+                router.push("/explore");
+              }}
             />
           ),
         }}
