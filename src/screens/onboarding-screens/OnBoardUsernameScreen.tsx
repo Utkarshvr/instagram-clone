@@ -34,6 +34,16 @@ export default function OnBoardUsernameScreen() {
     setIsCreatingUsername(false);
     console.log(error);
     if (error) {
+      if (error.code === "23505") {
+        return ToastAndroid.showWithGravityAndOffset(
+          "Username already exists",
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50
+        );
+      }
+
       return ToastAndroid.showWithGravityAndOffset(
         error.message,
         ToastAndroid.LONG,
