@@ -6,10 +6,12 @@ import UserAvatar from "@/components/ui/UserAvatar";
 export default function FollowRequests() {
   const { error, followRequests, loading, totalRequests } = useFollowRequests();
 
+  // Handling errors, loading & empty requests
   if (error) return <ErrorScreen message={error} />;
-
   if (loading) return null;
+  if (totalRequests === 0) return null;
 
+  // Main part of the component
   return (
     <Pressable
       className="flex-row items-center justify-between px-4 py-2"
