@@ -15,3 +15,12 @@ export interface ProfileType {
   bio: string;
   is_account_private: boolean;
 }
+
+export interface FollowType {
+  id: string;
+  followed_at: string;
+
+  follower_id: string;
+  following_id: string;
+  status: "pending" | "accepted";
+}
