@@ -15,6 +15,9 @@ interface SessionState {
   profile: ProfileType | null;
   setProfile: (profile: ProfileType) => void;
 
+  hasCheckedOnboarding: boolean;
+  setHasCheckedOnboarding: (condition: boolean) => void;
+
   resetSession: () => void;
 }
 
@@ -42,5 +45,14 @@ export const useSessionStore = create<SessionState>()((set) => ({
   profile: null,
   setProfile: (profile: ProfileType) => set((state) => ({ profile })),
 
-  resetSession: () => set(() => ({ session: null, profile: null })),
+  resetSession: () =>
+    set(() => ({
+      session: null,
+      profile: null,
+      hasCheckedOnboarding: false,
+    })),
+
+  hasCheckedOnboarding: false,
+  setHasCheckedOnboarding: (condition: boolean) =>
+    set((state) => ({ hasCheckedOnboarding: condition })),
 }));

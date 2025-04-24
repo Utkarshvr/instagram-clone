@@ -13,9 +13,9 @@ export default function AuthHandler() {
     setSession,
     setIsInitializing,
     setProfile,
+    hasCheckedOnboarding,
+    setHasCheckedOnboarding,
   } = useSessionStore();
-
-  const hasCheckedOnboarding = useRef(false);
 
   useEffect(() => {
     getSession();
@@ -39,7 +39,7 @@ export default function AuthHandler() {
 
     // Check if user is onboarded
     (async () => {
-      if (hasCheckedOnboarding.current) {
+      if (hasCheckedOnboarding) {
         const inTabsGroup = segments[0] === "(private)";
         if (session && !inTabsGroup) router.replace("/(private)/(tabs)");
         return;
@@ -56,7 +56,7 @@ export default function AuthHandler() {
       if (!profileData?.username) {
         router.replace("/(private)/(onboarding)/user-name");
       } else {
-        hasCheckedOnboarding.current = true;
+        setHasCheckedOnboarding(true);
 
         const inTabsGroup = segments[0] === "(private)";
         if (session && !inTabsGroup) router.replace("/(private)/(tabs)");
