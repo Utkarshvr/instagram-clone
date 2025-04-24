@@ -1,24 +1,9 @@
-import { Stack, router } from "expo-router";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Stack } from "expo-router";
+import { headerStyle } from "@/config/theme/styling";
 
 export default function StackNavigator() {
-  const canGoBack = router.canGoBack();
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#0a0a0a",
-        },
-        headerTitleStyle: {
-          color: "#fafafa",
-          fontFamily: "mont",
-          fontSize: 16,
-        },
-        headerTintColor: "#fafafa",
-        animationTypeForReplace: "push",
-      }}
-    >
+    <Stack screenOptions={{ ...headerStyle, animationTypeForReplace: "push" }}>
       <Stack.Screen name="edit-profile" options={{ title: "Edit profile" }} />
       {/* <Stack.Screen name="post/[postId]" options={{ title: "Post" }} />
       <Stack.Screen
