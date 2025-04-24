@@ -25,6 +25,8 @@ export default function SignupScreen() {
       email: form_value.email,
       password: form_value.password,
     });
+    setIsRegistering(false);
+
     if (error)
       return ToastAndroid.showWithGravityAndOffset(
         error.message,
