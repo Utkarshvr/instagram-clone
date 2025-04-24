@@ -1,16 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 
-type Props = {}
+type Props = {};
 
-const ProfileScreen = (props: Props) => {
+const NotificationsScreen = (props: Props) => {
   return (
-    <View>
-      <Text>ProfileScreen</Text>
-    </View>
-  )
-}
+    <ScrollView className="bg-neutral-950 flex-1">
+      <Text>Notifications</Text>
+    </ScrollView>
+  );
+};
 
-export default ProfileScreen
-
-const styles = StyleSheet.create({})
+export default NotificationsScreen;
