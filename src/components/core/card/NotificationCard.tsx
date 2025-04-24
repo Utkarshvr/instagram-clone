@@ -5,6 +5,9 @@ import { NotificationType } from "@/types/supabase-schema-types";
 import { Platform, Pressable, Text, View } from "react-native";
 import FriendRequestButton from "@/components/core/FriendRequestButton";
 import { FollowButton } from "../FollowBtn";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 interface NotificationCardProps {
   notification: NotificationType;
@@ -33,15 +36,20 @@ export default function NotificationCard({
         <View className="flex-row items-center gap-2 flex-1">
           {/* {!notification.is_read && <PriorityDot />} */}
           <UserAvatar avatar={profile.avatar} size={28} />
-          <Text
-            className="font-mont text-sm text-neutral-200 flex-1"
-            numberOfLines={2}
-          >
-            <Text className="font-montSemiBold text-neutral-100">
-              {profile.username}{" "}
+          <View className="flex-1">
+            <Text
+              className="font-mont text-sm text-neutral-200 "
+              numberOfLines={2}
+            >
+              <Text className="font-montSemiBold text-neutral-100">
+                {profile.username}{" "}
+              </Text>
+              has requested to follow you
             </Text>
-            has requested to follow you
-          </Text>
+            <Text className="font-mont text-xs text-neutral-400">
+              {dayjs(notification.created_at).fromNow()}
+            </Text>
+          </View>
         </View>
 
         {/* RIGHT SIDE */}
@@ -74,15 +82,20 @@ export default function NotificationCard({
         <View className="flex-row items-center gap-2 flex-1">
           {/* {!notification.is_read && <PriorityDot />} */}
           <UserAvatar avatar={profile.avatar} size={28} />
-          <Text
-            className="font-mont text-sm text-neutral-200 flex-1"
-            numberOfLines={2}
-          >
-            <Text className="font-montSemiBold text-neutral-100">
-              {profile.username}{" "}
+          <View className="flex-1">
+            <Text
+              className="font-mont text-sm text-neutral-200"
+              numberOfLines={2}
+            >
+              <Text className="font-montSemiBold text-neutral-100">
+                {profile.username}{" "}
+              </Text>
+              started following you
             </Text>
-            started following you
-          </Text>
+            <Text className="font-mont text-xs text-neutral-400">
+              {dayjs(notification.created_at).fromNow()}
+            </Text>
+          </View>
         </View>
         <View className="ml-3">
           <FollowButton targetUserId={notification.sender_id} size="small" />
