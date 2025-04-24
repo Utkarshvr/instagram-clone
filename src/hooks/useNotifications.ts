@@ -11,6 +11,8 @@ export function useNotifications() {
   const { session } = useSessionStore();
   const userId = session?.user?.id;
 
+  console.log(userId);
+
   async function fetchNotifications() {
     try {
       setLoading(true);
@@ -21,6 +23,7 @@ export function useNotifications() {
         .select()
         .eq("user_id", userId)
         .order("created_at", { ascending: false });
+      console.log("In fetchNotifications data: ", data);
 
       if (notificationError) {
         throw notificationError;

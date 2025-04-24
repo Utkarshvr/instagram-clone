@@ -3,9 +3,10 @@ import { useFollow } from "@/hooks/useFollow";
 
 type Props = {
   targetUserId: string;
+  size?: "small" | "large";
 };
 
-export const FollowButton = ({ targetUserId }: Props) => {
+export const FollowButton = ({ targetUserId, size = "large" }: Props) => {
   const { status, followUser, unfollowUser, removeRequest } =
     useFollow(targetUserId);
 
@@ -25,12 +26,16 @@ export const FollowButton = ({ targetUserId }: Props) => {
             : status === "not_following"
             ? "bg-sky-500"
             : "bg-neutral-600"
-        } p-2 rounded-md w-full items-center`}
+        } px-4 py-2 rounded-md w-full items-center`}
       >
         {status === "loading" ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text className="font-montSemiBold text-neutral-50">
+          <Text
+            className={`font-montSemiBold text-neutral-50 ${
+              size === "small" ? "text-sm" : "text-base"
+            }`}
+          >
             {status === "accepted"
               ? "Following"
               : status === "pending"

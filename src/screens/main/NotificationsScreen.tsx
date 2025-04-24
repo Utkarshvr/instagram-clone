@@ -1,12 +1,15 @@
 import NotificationCard from "@/components/core/card/NotificationCard";
 import FollowRequests from "@/components/core/FollowRequests";
 import { useNotifications } from "@/hooks/useNotifications";
-import { RefreshControl, ScrollView } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
+import LoadingScreen from "../common/LoadingScreen";
 
 type Props = {};
 
 const NotificationsScreen = (props: Props) => {
   const { notifications, loading, error, refetch } = useNotifications();
+
+  if (loading) return <LoadingScreen message="Loading notifications..." />;
 
   return (
     <ScrollView
@@ -18,7 +21,9 @@ const NotificationsScreen = (props: Props) => {
       <FollowRequests />
 
       {notifications.map((notification) => (
-        <NotificationCard key={notification.id} notification={notification} />
+        <View key={notification.id} className="mb-1">
+          <NotificationCard notification={notification} />
+        </View>
       ))}
     </ScrollView>
   );

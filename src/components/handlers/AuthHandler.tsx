@@ -39,19 +39,15 @@ export default function AuthHandler() {
 
     // Check if user is onboarded
     (async () => {
-      if (hasCheckedOnboarding) {
-        const inTabsGroup = segments[0] === "(private)";
-        if (session && !inTabsGroup) router.replace("/(private)/(tabs)");
-        return;
-      }
-
       const { data: profileData } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", session?.user?.id)
         .single();
 
-      setProfile(profileData);
+      if (profileData?.username) {
+        setProfile(profileData);
+      }
 
       if (!profileData?.username) {
         router.replace("/(private)/(onboarding)/user-name");

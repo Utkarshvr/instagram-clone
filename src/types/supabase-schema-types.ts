@@ -33,5 +33,5 @@ export interface NotificationType {
   sender_id: string;
   is_read: boolean;
   data: any;
-  type: "follow_request";
+  type: "follow_request" | "follow_accepted";
 }
