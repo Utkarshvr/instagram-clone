@@ -11,7 +11,19 @@ export function useNotifications() {
   const { session } = useSessionStore();
   const userId = session?.user?.id;
 
-  console.log(userId);
+  async function markNotificationsAsRead() {
+    if (!userId) return;
+
+    const { error } = await supabase
+      .from("notifications")
+      .update({ is_read: true })
+      .eq("user_id", userId)
+      .eq("is_read", false);
+
+    if (error) {
+      console.error("Failed to mark notifications as read:", error);
+    }
+  }
 
   async function fetchNotifications() {
     try {
@@ -30,6 +42,9 @@ export function useNotifications() {
       }
 
       setNotifications(data || []);
+
+      // Mark notifications as read once fetched
+      await markNotificationsAsRead();
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to fetch notifications"
