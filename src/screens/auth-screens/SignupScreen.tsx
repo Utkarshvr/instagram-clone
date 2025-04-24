@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
-import { Link } from "expo-router";
+import { toastMsg } from "@/utils/helpers";
+import { Link, router } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -12,18 +13,25 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const isDev = __DEV__;
+const redirectUrl = isDev
+  ? "exp://192.168.29.190:8081/--/auth-callback"
+  : "instagram://auth-callback"; // your production deep link
+
 export default function SignupScreen() {
   const [form_value, setform_value] = useState({ email: "", password: "" });
   const isFormValid = form_value.email !== "" && form_value.password !== "";
 
   const [isRegistering, setIsRegistering] = useState(false);
-
+  console.log({ redirectUrl });
   async function registerAccount() {
     setIsRegistering(true);
-
-    const { error } = await supabase.auth.signUp({
+    const { error, data } = await supabase.auth.signUp({
       email: form_value.email,
       password: form_value.password,
+      options: {
+        emailRedirectTo: redirectUrl,
+      },
     });
     setIsRegistering(false);
 
@@ -35,6 +43,14 @@ export default function SignupScreen() {
         25,
         50
       );
+
+    if (!data.session && data.user?.email) {
+      toastMsg(
+        `We’ve sent a confirmation email to ${data.user?.email}. Please check your inbox to activate your account.`
+      );
+      router.push("/verify-email");
+      return;
+    }
 
     ToastAndroid.showWithGravityAndOffset(
       "Signed up successfully!",

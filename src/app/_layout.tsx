@@ -11,7 +11,7 @@ import fonts from "@/config/theme/fonts";
 import AuthHandler from "@/components/handlers/AuthHandler";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
+import DeepLinking from "@/components/handlers/DeepLinking";
 SplashScreen.preventAutoHideAsync();
 
 export default function _layout() {
@@ -28,6 +28,7 @@ export default function _layout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Slot />
         <AuthHandler />
+        <DeepLinking />
       </GestureHandlerRootView>
     </ActionSheetProvider>
   );
