@@ -24,3 +24,14 @@ export interface FollowType {
   following_id: string;
   status: "pending" | "accepted";
 }
+
+export interface NotificationType {
+  id: string;
+  created_at: string;
+
+  user_id: string;
+  sender_id: string;
+  is_read: boolean;
+  data: any;
+  type: "follow_request";
+}
