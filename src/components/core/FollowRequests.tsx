@@ -35,7 +35,10 @@ export default function FollowRequests() {
           </Text>
           <Text className="text-neutral-400 text-sm  font-mont">
             {followRequests?.[0]?.follower?.username}{" "}
-            {totalRequests > 1 && `and ${totalRequests - 1} others`}
+            {totalRequests > 1 &&
+              `and ${totalRequests - 1} other${
+                totalRequests - 1 === 1 ? "" : "s"
+              }`}
           </Text>
         </View>
       </View>
