@@ -24,6 +24,7 @@ export default function SignInScreen() {
       email: form_value.email,
       password: form_value.password,
     });
+    setIsLogging(false);
 
     if (error) {
       return ToastAndroid.showWithGravityAndOffset(
