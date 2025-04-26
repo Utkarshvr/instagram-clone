@@ -36,31 +36,37 @@ const ProfileScreen = ({ profile_id }: Props) => {
     try {
       setIsFetchingProfile(true);
 
-      const [profileRes, followersRes, followingRes] = await Promise.all([
-        supabase.from("profiles").select("*").eq("id", profile_id).single(),
-        supabase
-          .from("follows")
-          .select("*", { count: "exact", head: true })
-          .eq("following_id", profile_id)
-          .eq("status", "accepted"),
-        supabase
-          .from("follows")
-          .select("*", { count: "exact", head: true })
-          .eq("follower_id", profile_id)
-          .eq("status", "accepted"),
-      ]);
+      // Fetch profile
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", profile_id)
+        .single();
 
-      if (profileRes.error || followersRes.error || followingRes.error) {
-        console.error(
-          profileRes.error || followersRes.error || followingRes.error
-        );
+      if (profileError) {
+        console.error("Error fetching profile", profileError);
+        return;
+      }
+
+      // Fetch follow counts from view
+      const { data: followCountsData, error: followCountsError } =
+        await supabase
+          .from("public_follow_counts_view")
+          .select("no_of_followers, no_of_following")
+          .eq("profile_id", profile_id)
+          .single();
+
+      console.log({ followCountsData });
+
+      if (followCountsError) {
+        console.error("Error fetching follow counts", followCountsError);
         return;
       }
 
       const fullProfile = {
-        ...profileRes.data,
-        no_of_followers: followersRes.count || 0,
-        no_of_following: followingRes.count || 0,
+        ...profileData,
+        no_of_followers: followCountsData?.no_of_followers ?? 0,
+        no_of_following: followCountsData?.no_of_following ?? 0,
       };
 
       setProfile(fullProfile);
