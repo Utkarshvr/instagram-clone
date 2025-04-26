@@ -171,11 +171,11 @@ const ProfileScreen = ({ profile_id }: Props) => {
             <TouchableOpacity
               onPress={() =>
                 router.push({
-                  pathname: "/(private)/(tabs)/profile/follow-list",
-                  params: {
-                    profile_id: profile.id,
-                    type: "followers",
-                  },
+                  pathname: "/(private)/(tabs)/profile/follow-list/followers",
+                  // params: {
+                  //   profile_id: profile.id,
+                  //   type: "followers",
+                  // },
                 })
               }
               className="gap-1 items-center"
@@ -190,11 +190,11 @@ const ProfileScreen = ({ profile_id }: Props) => {
             <TouchableOpacity
               onPress={() =>
                 router.push({
-                  pathname: "/(private)/(tabs)/profile/follow-list",
-                  params: {
-                    profile_id: profile.id,
-                    type: "following",
-                  },
+                  pathname: "/(private)/(tabs)/profile/follow-list/following",
+                  // params: {
+                  //   profile_id: profile.id,
+                  //   type: "following",
+                  // },
                 })
               }
               className="gap-1 items-center"
