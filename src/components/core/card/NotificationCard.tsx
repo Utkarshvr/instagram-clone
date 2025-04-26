@@ -90,7 +90,7 @@ export default function NotificationCard({
               <Text className="font-montSemiBold text-neutral-100">
                 {profile.username}{" "}
               </Text>
-              started following you
+              has accepted your follow request
             </Text>
             <Text className="font-mont text-xs text-neutral-400">
               {dayjs(notification.created_at).fromNow()}

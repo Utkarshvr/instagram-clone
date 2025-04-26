@@ -21,25 +21,54 @@ type Props = {
   profile_id: string | null | undefined;
 };
 
+type ExtendedProfileType = ProfileType & {
+  no_of_followers: number;
+  no_of_following: number;
+};
+
 const ProfileScreen = ({ profile_id }: Props) => {
   const { profile: MyProfile } = useSessionStore();
 
   const [isFetchingProfile, setIsFetchingProfile] = useState(false);
-  const [profile, setProfile] = useState<ProfileType | null>(null);
+  const [profile, setProfile] = useState<ExtendedProfileType | null>(null);
 
   const fetchProfile = async () => {
-    setIsFetchingProfile(true);
+    try {
+      setIsFetchingProfile(true);
 
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", profile_id)
-      .single();
+      const [profileRes, followersRes, followingRes] = await Promise.all([
+        supabase.from("profiles").select("*").eq("id", profile_id).single(),
+        supabase
+          .from("follows")
+          .select("*", { count: "exact", head: true })
+          .eq("following_id", profile_id)
+          .eq("status", "accepted"),
+        supabase
+          .from("follows")
+          .select("*", { count: "exact", head: true })
+          .eq("follower_id", profile_id)
+          .eq("status", "accepted"),
+      ]);
 
-    if (error) return console.log(error);
+      if (profileRes.error || followersRes.error || followingRes.error) {
+        console.error(
+          profileRes.error || followersRes.error || followingRes.error
+        );
+        return;
+      }
 
-    setProfile(data);
-    setIsFetchingProfile(false);
+      const fullProfile = {
+        ...profileRes.data,
+        no_of_followers: followersRes.count || 0,
+        no_of_following: followingRes.count || 0,
+      };
+
+      setProfile(fullProfile);
+    } catch (err) {
+      console.error("Something went wrong fetching profile", err);
+    } finally {
+      setIsFetchingProfile(false);
+    }
   };
 
   useEffect(() => {
@@ -128,20 +157,19 @@ const ProfileScreen = ({ profile_id }: Props) => {
             }
           />
 
-          {/* <View className="flex-row gap-4">
-            {hasAccess && (
-              <TouchableOpacity className="gap-1 items-center">
-                <Text className="text-neutral-200 font-montserrat">
-                  {Posts.length}
-                </Text>
-                <Text className="text-neutral-400 font-montserratSemiBold">
-                  Posts
-                </Text>
-              </TouchableOpacity>
-            )}
+          {/* Posts, Followers, Following */}
+          <View className="flex-row gap-4">
+            {/* <TouchableOpacity className="gap-1 items-center">
+              <Text className="text-neutral-200 font-montserrat">
+                {profile?.no_of_posts}
+              </Text>
+              <Text className="text-neutral-400 font-montserratSemiBold">
+                Posts
+              </Text>
+            </TouchableOpacity> */}
             <TouchableOpacity className="gap-1 items-center">
               <Text className="text-neutral-200 font-montserrat">
-                {userFollowers.length}
+                {profile?.no_of_followers}
               </Text>
               <Text className="text-neutral-400 font-montserratSemiBold">
                 Followers
@@ -149,14 +177,15 @@ const ProfileScreen = ({ profile_id }: Props) => {
             </TouchableOpacity>
             <TouchableOpacity className="gap-1 items-center">
               <Text className="text-neutral-200 font-montserrat">
-                {userFollowing.length}
+                {profile?.no_of_following}
               </Text>
               <Text className="text-neutral-400 font-montserratSemiBold">
                 Following
               </Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
         </View>
+
         <View>
           <View className="gap-1">
             <Text className="font-montSemiBold text-neutral-100">
