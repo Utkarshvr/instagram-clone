@@ -1,5 +1,10 @@
-import { Slot } from "expo-router";
+import { headerStyle } from "@/config/theme/styling";
+import { Stack } from "expo-router";
 
 export default function _layout() {
-  return <Slot />;
+  return (
+    <Stack screenOptions={{ ...headerStyle, animationTypeForReplace: "push" }}>
+      <Stack.Screen name="post" options={{ title: "Create Post" }} />
+    </Stack>
+  );
 }

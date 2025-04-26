@@ -1,12 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import CreatePostScreen from "@/screens/main/CreatePostScreen";
 
 export default function post() {
-  return (
-    <View>
-      <Text>post</Text>
-    </View>
-  )
+  return <CreatePostScreen />;
 }
-
-const styles = StyleSheet.create({})
