@@ -11,6 +11,7 @@ import {
 import useMediaPicker from "@/hooks/useMediaPicker";
 import MediaCarousel from "@/components/core/MediaCarousel";
 import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function CreatePostScreen() {
   const selectionLimit = 5;
@@ -29,6 +30,10 @@ export default function CreatePostScreen() {
   useEffect(() => {
     pickMedia();
   }, []);
+
+  const handleUpload = async () => {
+    // TODO: Upload to supabase storage
+  };
 
   return (
     <View className="flex-1 bg-neutral-950">
@@ -85,6 +90,7 @@ export default function CreatePostScreen() {
             opacity: pressed && Platform.OS === "ios" ? 1 : 0.5,
           })}
           className="bg-sky-500 p-4 rounded-lg"
+          onPress={handleUpload}
         >
           <Text className="text-center text-neutral-50 font-montSemiBold text-base">
             Upload
