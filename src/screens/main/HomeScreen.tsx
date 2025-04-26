@@ -1,6 +1,8 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { useSessionStore } from "@/store/SessionStore";
+import PostCard from "@/components/core/card/PostCard";
+
 type Props = {};
 
 const HomeScreen = (props: Props) => {
@@ -15,6 +17,8 @@ const HomeScreen = (props: Props) => {
         title="Edit Profile"
         onPress={() => router.push("/edit-profile")}
       />
+
+      <PostCard />
     </View>
   );
 };

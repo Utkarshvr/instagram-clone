@@ -18,6 +18,7 @@ import { useSessionStore } from "@/store/SessionStore";
 import ErrorScreen from "../common/ErrorScreen";
 import { FollowButton } from "@/components/core/FollowBtn";
 import FriendRequestButton from "@/components/core/FriendRequestButton";
+import ProfilePictureModal from "@/components/core/modal/ProfilePictureModal";
 type Props = {
   profile_id: string | null | undefined;
 };
@@ -119,6 +120,12 @@ const ProfileScreen = ({ profile_id }: Props) => {
       });
   }, [navigation, profile]);
 
+  const [isProfilePictureModalOpen, setIsProfilePictureModalOpen] =
+    useState(false);
+  const showProfilePicture = () => {
+    setIsProfilePictureModalOpen(true);
+  };
+
   // Handle Errors & Loading
   if (!profile_id || !MyProfile) return <ErrorScreen message="No profile id" />;
   if (isLoading) return <LoadingScreen message="Fetching profile..." />;
@@ -154,14 +161,16 @@ const ProfileScreen = ({ profile_id }: Props) => {
 
       <View className="w-full gap-4 p-4">
         <View className="w-full justify-between gap-2 flex-row items-center">
-          <Image
-            className="border-neutral-300 border rounded-full w-[80px] h-[80px]"
-            source={
-              profile?.avatar?.publicUrl
-                ? { uri: profile.avatar.publicUrl }
-                : require("@/assets/images/person.png")
-            }
-          />
+          <TouchableOpacity onPress={showProfilePicture}>
+            <Image
+              className="border-neutral-300 border rounded-full w-[80px] h-[80px]"
+              source={
+                profile?.avatar?.publicUrl
+                  ? { uri: profile.avatar.publicUrl }
+                  : require("@/assets/images/person.png")
+              }
+            />
+          </TouchableOpacity>
 
           {/* Posts, Followers, Following */}
           <View className="flex-row gap-4">
@@ -194,12 +203,16 @@ const ProfileScreen = ({ profile_id }: Props) => {
 
         <View>
           <View className="gap-1">
-            <Text className="font-montSemiBold text-neutral-100">
-              {profile?.name}
-            </Text>
-            <Text className="font-mont text-neutral-100 max-w-[80%]">
-              {profile?.bio}
-            </Text>
+            {profile?.name && (
+              <Text className="font-montSemiBold text-neutral-100">
+                {profile?.name}
+              </Text>
+            )}
+            {profile?.bio && (
+              <Text className="font-mont text-neutral-100 max-w-[80%]">
+                {profile?.bio}
+              </Text>
+            )}
           </View>
         </View>
 
@@ -234,6 +247,14 @@ const ProfileScreen = ({ profile_id }: Props) => {
         )}
       
       </View> */}
+
+      {isProfilePictureModalOpen && (
+        <ProfilePictureModal
+          isOpen={isProfilePictureModalOpen}
+          onClose={() => setIsProfilePictureModalOpen(false)}
+          profilePicture={profile?.avatar?.publicUrl}
+        />
+      )}
     </ScrollView>
   );
 };
