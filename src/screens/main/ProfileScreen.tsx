@@ -17,6 +17,7 @@ import LoadingScreen from "../common/LoadingScreen";
 import { useSessionStore } from "@/store/SessionStore";
 import ErrorScreen from "../common/ErrorScreen";
 import { FollowButton } from "@/components/core/FollowBtn";
+import FriendRequestButton from "@/components/core/FriendRequestButton";
 type Props = {
   profile_id: string | null | undefined;
 };
@@ -31,6 +32,8 @@ const ProfileScreen = ({ profile_id }: Props) => {
 
   const [isFetchingProfile, setIsFetchingProfile] = useState(false);
   const [profile, setProfile] = useState<ExtendedProfileType | null>(null);
+  const [hasReceivedFollowRequest, setHasReceivedFollowRequest] =
+    useState(false);
 
   const fetchProfile = async () => {
     try {
@@ -77,10 +80,24 @@ const ProfileScreen = ({ profile_id }: Props) => {
     }
   };
 
+  async function checkFollowRequestStatus() {
+    const { data, error } = await supabase
+      .from("follows")
+      .select("followed_at")
+      .eq("follower_id", profile_id)
+      .eq("following_id", MyProfile?.id)
+      .eq("status", "pending")
+      .single();
+
+    console.log({ data, error });
+    if (data) setHasReceivedFollowRequest(true);
+  }
+
   useEffect(() => {
     if (!profile_id) return console.log("No profile id");
 
     fetchProfile();
+    checkFollowRequestStatus();
   }, [profile_id]);
 
   const isLoading = isFetchingProfile;
@@ -99,7 +116,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
   }, [navigation, profile]);
 
   // Handle Errors & Loading
-  if (!profile_id) return <ErrorScreen message="No profile id" />;
+  if (!profile_id || !MyProfile) return <ErrorScreen message="No profile id" />;
   if (isLoading) return <LoadingScreen message="Fetching profile..." />;
   if (!profile) return <ErrorScreen message="Profile not found" />;
 
@@ -113,44 +130,23 @@ const ProfileScreen = ({ profile_id }: Props) => {
       }
     >
       {/* Accept Request */}
-      {/* {isReqReceived && (
+      {hasReceivedFollowRequest && (
         <View className="p-4 border-t border-b border-neutral-800 gap-4 items-center">
           <View className="flex-row gap-1 items-center">
             <Ionicons name="person-add-outline" size={12} color={"#fafafa"} />
 
             <Text className="text-neutral-50 font-montserratSemiBold text-sm">
-              <Text className="font-montserratBold">{user?.username}</Text>{" "}
+              <Text className="font-montserratBold">{profile?.username}</Text>{" "}
               wants to follow you
             </Text>
           </View>
-          <View className="flex-row gap-4 items-center">
-            <TouchableOpacity onPress={acceptReq}>
-              <View className={`bg-sky-500 py-2 px-8 rounded-md items-center`}>
-                {isConfirmBtnDisabled ? (
-                  <ActivityIndicator size={"small"} />
-                ) : (
-                  <Text className="font-montserratSemiBold text-sm text-neutral-50">
-                    Confirm
-                  </Text>
-                )}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={deleteReq}>
-              <View
-                className={`bg-neutral-800 py-2 px-8 rounded-md items-center`}
-              >
-                {isCancelBtnDisabled ? (
-                  <ActivityIndicator size={"small"} />
-                ) : (
-                  <Text className="font-montserratSemiBold text-sm  text-neutral-50">
-                    Delete
-                  </Text>
-                )}
-              </View>
-            </TouchableOpacity>
-          </View>
+          <FriendRequestButton
+            senderId={profile.id}
+            receiverId={MyProfile.id}
+            onRespond={() => setHasReceivedFollowRequest(false)}
+          />
         </View>
-      )} */}
+      )}
 
       <View className="w-full gap-4 p-4">
         <View className="w-full justify-between gap-2 flex-row items-center">
