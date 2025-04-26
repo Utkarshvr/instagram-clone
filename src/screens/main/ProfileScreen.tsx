@@ -93,11 +93,15 @@ const ProfileScreen = ({ profile_id }: Props) => {
     if (data) setHasReceivedFollowRequest(true);
   }
 
+  const onRefresh = () => {
+    fetchProfile();
+    checkFollowRequestStatus();
+  };
+
   useEffect(() => {
     if (!profile_id) return console.log("No profile id");
 
-    fetchProfile();
-    checkFollowRequestStatus();
+    onRefresh();
   }, [profile_id]);
 
   const isLoading = isFetchingProfile;
@@ -126,7 +130,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
       className="bg-neutral-950 flex-1"
       // contentContainerStyle={styles.scrollView}
       refreshControl={
-        <RefreshControl refreshing={isLoading} onRefresh={fetchProfile} />
+        <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
       }
     >
       {/* Accept Request */}

@@ -7,8 +7,13 @@ type Props = {
 };
 
 export const FollowButton = ({ targetUserId, size = "large" }: Props) => {
-  const { status, followUser, unfollowUser, removeRequest } =
-    useFollow(targetUserId);
+  const {
+    status,
+    isFollowedByTarget,
+    followUser,
+    unfollowUser,
+    removeRequest,
+  } = useFollow(targetUserId);
 
   const handlePress = () => {
     if (status === "accepted") unfollowUser();
@@ -17,6 +22,16 @@ export const FollowButton = ({ targetUserId, size = "large" }: Props) => {
   };
 
   if (!targetUserId) return null;
+
+  const buttonText =
+    status === "accepted"
+      ? "Following"
+      : status === "pending"
+      ? "Requested"
+      : isFollowedByTarget
+      ? "Follow back"
+      : "Follow";
+
   return (
     <TouchableOpacity onPress={handlePress}>
       <View
@@ -36,11 +51,7 @@ export const FollowButton = ({ targetUserId, size = "large" }: Props) => {
               size === "small" ? "text-sm" : "text-base"
             }`}
           >
-            {status === "accepted"
-              ? "Following"
-              : status === "pending"
-              ? "Requested"
-              : "Follow"}
+            {buttonText}
           </Text>
         )}
       </View>

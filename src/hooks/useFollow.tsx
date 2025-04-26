@@ -8,22 +8,44 @@ export function useFollow(targetUserId: string) {
   const [status, setStatus] = useState<
     "accepted" | "pending" | "not_following" | "loading"
   >("loading");
+  const [isFollowedByTarget, setIsFollowedByTarget] = useState(false);
 
   useEffect(() => {
     if (!targetUserId || !currentUser?.id) return;
 
     const fetchFollowStatus = async () => {
-      const { data, error } = await supabase
-        .from("follows")
-        .select("status")
-        .eq("follower_id", currentUser.id)
-        .eq("following_id", targetUserId)
-        .maybeSingle();
+      const [followRes, followedByRes] = await Promise.all([
+        supabase
+          .from("follows")
+          .select("status")
+          .eq("follower_id", currentUser.id)
+          .eq("following_id", targetUserId)
+          .maybeSingle(),
 
-      if (error || !data) {
+        supabase
+          .from("follows")
+          .select("id")
+          .eq("follower_id", targetUserId)
+          .eq("following_id", currentUser.id)
+          .eq("status", "accepted")
+          .maybeSingle(),
+      ]);
+
+      if (followRes.error) {
+        console.log("Follow fetch error:", followRes.error);
         setStatus("not_following");
-        console.log(error);
-      } else setStatus(data.status);
+      } else {
+        setStatus(followRes.data?.status || "not_following");
+      }
+
+      console.log({ followedByRes });
+
+      if (followedByRes.error) {
+        console.log("Reverse follow check error:", followedByRes.error);
+        setIsFollowedByTarget(false);
+      } else {
+        setIsFollowedByTarget(!!followedByRes.data);
+      }
     };
 
     fetchFollowStatus();
@@ -63,6 +85,8 @@ export function useFollow(targetUserId: string) {
 
   return {
     status,
+    isFollowedByTarget,
+
     followUser,
     unfollowUser,
     removeRequest,
