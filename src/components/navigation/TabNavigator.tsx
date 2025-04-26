@@ -119,6 +119,8 @@ export default function TabNavigator() {
       <Tabs.Screen
         name="profile"
         options={{
+          headerShown: false,
+
           title: "Profile",
           headerTitleStyle: { display: "none" },
           headerLeft: () => {

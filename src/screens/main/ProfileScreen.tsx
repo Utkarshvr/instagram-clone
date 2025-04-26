@@ -3,13 +3,11 @@ import {
   Text,
   Image,
   ScrollView,
-  StyleSheet,
   TouchableOpacity,
-  ActivityIndicator,
   RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, useNavigation } from "expo-router";
+import { Link, router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { ProfileType } from "@/types/supabase-schema-types";
@@ -108,18 +106,6 @@ const ProfileScreen = ({ profile_id }: Props) => {
   const isLoading = isFetchingProfile;
   const isMyProfile = profile_id === MyProfile?.id;
 
-  const navigation = useNavigation();
-  useEffect(() => {
-    if (profile)
-      navigation.setOptions({
-        headerTitle: profile.username,
-      });
-    else
-      navigation.setOptions({
-        headerTitle: "",
-      });
-  }, [navigation, profile]);
-
   const [isProfilePictureModalOpen, setIsProfilePictureModalOpen] =
     useState(false);
   const showProfilePicture = () => {
@@ -182,7 +168,18 @@ const ProfileScreen = ({ profile_id }: Props) => {
                 Posts
               </Text>
             </TouchableOpacity> */}
-            <TouchableOpacity className="gap-1 items-center">
+            <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: "/(private)/(tabs)/profile/follow-list",
+                  params: {
+                    profile_id: profile.id,
+                    type: "followers",
+                  },
+                })
+              }
+              className="gap-1 items-center"
+            >
               <Text className="text-neutral-200 font-montserrat">
                 {profile?.no_of_followers}
               </Text>
@@ -190,7 +187,18 @@ const ProfileScreen = ({ profile_id }: Props) => {
                 Followers
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="gap-1 items-center">
+            <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: "/(private)/(tabs)/profile/follow-list",
+                  params: {
+                    profile_id: profile.id,
+                    type: "following",
+                  },
+                })
+              }
+              className="gap-1 items-center"
+            >
               <Text className="text-neutral-200 font-montserrat">
                 {profile?.no_of_following}
               </Text>
