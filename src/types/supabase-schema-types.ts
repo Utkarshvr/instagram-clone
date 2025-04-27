@@ -35,3 +35,22 @@ export interface NotificationType {
   data: any;
   type: "follow_request" | "follow_accepted";
 }
+
+export type StorageObject = {
+  id: string;
+  path: string;
+  fullPath: string;
+
+  publicUrl?: string;
+};
+
+export interface PostType {
+  id: string;
+  created_at: string;
+
+  user_id: string;
+  profile: ProfileType;
+
+  caption: string;
+  media: (StorageObject & { type: string })[];
+}
