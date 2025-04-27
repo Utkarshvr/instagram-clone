@@ -171,7 +171,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
             <TouchableOpacity
               onPress={() =>
                 router.push({
-                  pathname: "/(private)/(tabs)/profile/follow-list/followers",
+                  pathname: "/(private)/(tabs)/profile/follow-list",
                   // params: {
                   //   profile_id: profile.id,
                   //   type: "followers",

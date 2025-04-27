@@ -25,6 +25,7 @@ export default function _layout() {
       <Stack.Screen
         name="follow-list"
         options={{
+          title: profile?.username,
           presentation: "fullScreenModal",
           animation: "slide_from_right",
         }}
