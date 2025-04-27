@@ -7,15 +7,24 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import useMediaPicker from "@/hooks/useMediaPicker";
 import MediaCarousel from "@/components/core/MediaCarousel";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { useSessionStore } from "@/store/SessionStore";
+import {
+  toastMsg,
+  uploadMultipleFilesToSupabaseStorage,
+} from "@/utils/helpers";
+import { router } from "expo-router";
 
 export default function CreatePostScreen() {
+  const { profile } = useSessionStore();
+
   const selectionLimit = 5;
-  const { media, pickMedia, removeMedia } = useMediaPicker({
+  const { media, pickMedia, removeMedia, clearAllMedia } = useMediaPicker({
     mediaTypes: ["images", "videos"],
     selectionLimit,
     allowsMultipleSelection: true,
@@ -23,6 +32,7 @@ export default function CreatePostScreen() {
     quality: 1,
   });
 
+  const [isUploading, setIsUploading] = useState(false);
   const [postDetails, setPostDetails] = useState({
     caption: "",
   });
@@ -32,7 +42,60 @@ export default function CreatePostScreen() {
   }, []);
 
   const handleUpload = async () => {
-    // TODO: Upload to supabase storage
+    if (media.length === 0) return console.log("No media selected");
+
+    setIsUploading(true);
+
+    console.log({ media });
+
+    // Upload to supabase storage
+    const uploadRes = await uploadMultipleFilesToSupabaseStorage(
+      media.map((m) => ({
+        uri: m.uri,
+        fileName: m.fileName || "",
+        type: m.type,
+      })),
+      `${profile?.id}/${Date.now()}`,
+      "posts"
+    );
+    console.log({ uploadRes });
+
+    if (uploadRes.failedUploads.length > 0) {
+      // toastMsg("");
+      console.log(
+        "The following files failed to upload: ",
+        uploadRes.failedUploads
+      );
+      // return setIsUploading(false);
+    }
+
+    if (uploadRes.successfulUploads.length === 0) {
+      toastMsg("No media uploaded");
+      toastMsg("There was an error uploading the media");
+      router.canGoBack() ? router.back() : router.replace("/");
+      return setIsUploading(false);
+    }
+
+    // Upload to supabase database
+
+    const { error } = await supabase.from("posts").insert({
+      caption: postDetails.caption,
+      media: uploadRes.successfulUploads,
+    });
+
+    if (error) {
+      setIsUploading(false);
+      return console.log(error);
+    }
+    setIsUploading(false);
+    toastMsg("Post created successfully");
+
+    // Reset State
+    setPostDetails({ caption: "" });
+    clearAllMedia();
+
+    // Navigate to home
+    router.canGoBack() ? router.back() : router.replace("/");
   };
 
   return (
@@ -87,14 +150,21 @@ export default function CreatePostScreen() {
         <Pressable
           android_ripple={{ color: "rgba(255,255,255,0.2)" }}
           style={({ pressed }) => ({
-            opacity: pressed && Platform.OS === "ios" ? 1 : 0.5,
+            opacity: pressed && Platform.OS === "ios" ? 0.5 : 1,
           })}
-          className="bg-sky-500 p-4 rounded-lg"
+          className={`${
+            isUploading || media.length === 0 ? "opacity-50" : ""
+          } bg-sky-500 p-4 rounded-lg `}
           onPress={handleUpload}
+          disabled={isUploading || media.length === 0}
         >
-          <Text className="text-center text-neutral-50 font-montSemiBold text-base">
-            Upload
-          </Text>
+          {isUploading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text className="text-center text-neutral-50 font-montSemiBold text-base">
+              Upload
+            </Text>
+          )}
         </Pressable>
       </View>
     </View>
