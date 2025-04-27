@@ -80,32 +80,22 @@ const decode = (base64: string) => {
 // ✅ Single File Upload (Flexible)
 export const uploadFileToSupabaseStorage = async (
   file: { uri: string; fileName: string; type?: string },
-  filePath: string,
+  path: { filePath: string; isReplacable?: boolean },
   bucketId: string,
   fileOptions?: FileOptions
 ) => {
   if (!file.uri) throw new Error("No URI found");
 
   try {
-    // // Read file as base64
-    // const fileContent = await FileSystem.readAsStringAsync(file.uri, {
-    //   encoding: FileSystem.EncodingType.Base64,
-    // });
-
-    // // Convert base64 to Blob
-    // const fileBlob = new Blob([
-    //   Uint8Array.from(atob(fileContent), (c) => c.charCodeAt(0)),
-    // ]);
-
-    // 🔥 fetch() the file from local uri
-    // const response = await fetch(file.uri);
-    // const fileBlob = await response.blob();
-
     const base64 = await FileSystem.readAsStringAsync(file.uri, {
       encoding: "base64",
     });
 
     const fileUint8Array = decode(base64);
+
+    const filePath = path.isReplacable
+      ? path.filePath.replace("__REPLACE__", `${file.fileName}-${Date.now()}`)
+      : path.filePath;
 
     // Upload to Supabase
     const { data, error } = await supabase.storage
@@ -117,7 +107,7 @@ export const uploadFileToSupabaseStorage = async (
 
     if (error) throw error;
 
-    return data;
+    return { ...data, type: file.type };
   } catch (err) {
     console.error("Upload failed: ", err);
     throw err;
@@ -127,12 +117,12 @@ export const uploadFileToSupabaseStorage = async (
 // ✅ Multiple Files Upload (Flexible)
 export const uploadMultipleFilesToSupabaseStorage = async (
   files: { uri: string; fileName: string; type?: string }[],
-  filePath: string,
+  path: { filePath: string; isReplacable: boolean },
   bucketId: string,
   fileOptions?: FileOptions
 ) => {
   const uploadPromises = files.map((file) =>
-    uploadFileToSupabaseStorage(file, filePath, bucketId, fileOptions)
+    uploadFileToSupabaseStorage(file, path, bucketId, fileOptions)
   );
 
   const results = await Promise.allSettled(uploadPromises);
@@ -146,6 +136,7 @@ export const uploadMultipleFilesToSupabaseStorage = async (
             id: string;
             path: string;
             fullPath: string;
+            type: string;
           }>
         ).value
     );

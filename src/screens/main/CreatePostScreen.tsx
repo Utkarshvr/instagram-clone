@@ -55,7 +55,7 @@ export default function CreatePostScreen() {
         fileName: m.fileName || "",
         type: m.type,
       })),
-      `${profile?.id}/${Date.now()}`,
+      { filePath: `${profile?.id}/__REPLACE__`, isReplacable: true },
       "posts"
     );
     console.log({ uploadRes });
