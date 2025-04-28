@@ -115,9 +115,11 @@ const ProfileScreen = ({ profile_id }: Props) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    navigation.setOptions({
-      title: profile?.username,
-    });
+    if (profile) {
+      navigation.setOptions({
+        title: profile?.username,
+      });
+    }
   }, [navigation, profile]);
 
   // Handle Errors & Loading
