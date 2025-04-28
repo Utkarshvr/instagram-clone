@@ -2,14 +2,6 @@
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
-type UseMediaPickerOptions = {
-  mediaTypes?: ImagePicker.MediaTypeOptions;
-  allowsMultipleSelection?: boolean;
-  selectionLimit?: number;
-  allowsEditing?: boolean;
-  quality?: number;
-};
-
 type UseMediaPickerReturn = {
   media: ImagePicker.ImagePickerAsset[];
   pickMedia: () => Promise<void>;
