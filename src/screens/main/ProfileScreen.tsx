@@ -245,7 +245,10 @@ const ProfileScreen = ({ profile_id }: Props) => {
             </TouchableOpacity>
           </Link>
         ) : (
-          <FollowButton targetUserId={profile.id} />
+          <FollowButton
+            targetUserId={profile.id}
+            is_account_private={profile.is_account_private}
+          />
         )}
       </View>
 

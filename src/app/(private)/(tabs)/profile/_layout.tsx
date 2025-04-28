@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import { headerStyle } from "@/config/theme/styling";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { useSessionStore } from "@/store/SessionStore";
 import { useSignOut } from "@/hooks/useSignOut";

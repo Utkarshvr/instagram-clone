@@ -4,16 +4,21 @@ import { useFollow } from "@/hooks/useFollow";
 type Props = {
   targetUserId: string;
   size?: "small" | "large";
+  is_account_private: boolean;
 };
 
-export const FollowButton = ({ targetUserId, size = "large" }: Props) => {
+export const FollowButton = ({
+  targetUserId,
+  size = "large",
+  is_account_private,
+}: Props) => {
   const {
     status,
     isFollowedByTarget,
     followUser,
     unfollowUser,
     removeRequest,
-  } = useFollow(targetUserId);
+  } = useFollow(targetUserId, is_account_private);
 
   const handlePress = () => {
     if (status === "accepted") unfollowUser();

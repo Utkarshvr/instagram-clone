@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useSessionStore } from "@/store/SessionStore";
 
-export function useFollow(targetUserId: string) {
+export function useFollow(targetUserId: string, is_account_private: boolean) {
   const { profile: currentUser } = useSessionStore();
 
   const [status, setStatus] = useState<
@@ -56,7 +56,7 @@ export function useFollow(targetUserId: string) {
     const { error } = await supabase.from("follows").upsert({
       follower_id: currentUser?.id,
       following_id: targetUserId,
-      status: "pending", // Or "accepted" if account is public
+      status: is_account_private ? "pending" : "accepted",
     });
 
     if (error) {
@@ -64,7 +64,7 @@ export function useFollow(targetUserId: string) {
       setStatus("not_following");
       return;
     }
-    setStatus("pending"); // Or "accepted"
+    setStatus(is_account_private ? "pending" : "accepted");
   };
 
   const unfollowUser = async () => {
