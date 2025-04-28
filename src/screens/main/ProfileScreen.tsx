@@ -17,6 +17,7 @@ import ErrorScreen from "../common/ErrorScreen";
 import { FollowButton } from "@/components/core/FollowBtn";
 import FriendRequestButton from "@/components/core/FriendRequestButton";
 import ProfilePictureModal from "@/components/core/modal/ProfilePictureModal";
+import ProfilePostFeed from "@/components/core/ProfilePostFeed";
 type Props = {
   profile_id: string | null | undefined;
 };
@@ -24,6 +25,7 @@ type Props = {
 type ExtendedProfileType = ProfileType & {
   no_of_followers: number;
   no_of_following: number;
+  no_of_posts: number;
 };
 
 const ProfileScreen = ({ profile_id }: Props) => {
@@ -33,6 +35,12 @@ const ProfileScreen = ({ profile_id }: Props) => {
   const [profile, setProfile] = useState<ExtendedProfileType | null>(null);
   const [hasReceivedFollowRequest, setHasReceivedFollowRequest] =
     useState(false);
+  const [
+    doesCurrentUserFollowTargetProfile,
+    setDoesCurrentUserFollowTargetProfile,
+  ] = useState({ isLoading: true, isFollowing: false });
+
+  const isMe = profile_id === MyProfile?.id;
 
   const fetchProfile = async () => {
     try {
@@ -53,12 +61,10 @@ const ProfileScreen = ({ profile_id }: Props) => {
       // Fetch follow counts from view
       const { data: followCountsData, error: followCountsError } =
         await supabase
-          .from("public_follow_counts_view")
-          .select("no_of_followers, no_of_following")
+          .from("profile_counts")
+          .select("no_of_followers, no_of_following, no_of_posts")
           .eq("profile_id", profile_id)
           .single();
-
-      console.log({ followCountsData });
 
       if (followCountsError) {
         console.error("Error fetching follow counts", followCountsError);
@@ -69,6 +75,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
         ...profileData,
         no_of_followers: followCountsData?.no_of_followers ?? 0,
         no_of_following: followCountsData?.no_of_following ?? 0,
+        no_of_posts: followCountsData?.no_of_posts ?? 0,
       };
 
       setProfile(fullProfile);
@@ -92,9 +99,35 @@ const ProfileScreen = ({ profile_id }: Props) => {
     if (data) setHasReceivedFollowRequest(true);
   }
 
+  async function checkIfCurrentUserFollowsTargetProfile() {
+    setDoesCurrentUserFollowTargetProfile({
+      isLoading: true,
+      isFollowing: false,
+    });
+    const { data } = await supabase
+      .from("follows")
+      .select("status")
+      .eq("follower_id", MyProfile?.id)
+      .eq("following_id", profile_id)
+      .eq("status", "accepted")
+      .maybeSingle();
+
+    if (data)
+      setDoesCurrentUserFollowTargetProfile({
+        isLoading: false,
+        isFollowing: true,
+      });
+    else
+      setDoesCurrentUserFollowTargetProfile({
+        isLoading: false,
+        isFollowing: false,
+      });
+  }
+
   const onRefresh = () => {
     fetchProfile();
     checkFollowRequestStatus();
+    checkIfCurrentUserFollowsTargetProfile();
   };
 
   useEffect(() => {
@@ -170,14 +203,14 @@ const ProfileScreen = ({ profile_id }: Props) => {
 
           {/* Posts, Followers, Following */}
           <View className="flex-row gap-4">
-            {/* <TouchableOpacity className="gap-1 items-center">
+            <View className="gap-1 items-center">
               <Text className="text-neutral-200 font-montserrat">
                 {profile?.no_of_posts}
               </Text>
               <Text className="text-neutral-400 font-montserratSemiBold">
                 Posts
               </Text>
-            </TouchableOpacity> */}
+            </View>
             <TouchableOpacity
               onPress={() =>
                 router.push({
@@ -268,6 +301,20 @@ const ProfileScreen = ({ profile_id }: Props) => {
         )}
       
       </View> */}
+
+      {!doesCurrentUserFollowTargetProfile.isLoading &&
+      !isMe &&
+      !profile.is_account_private &&
+      !doesCurrentUserFollowTargetProfile.isFollowing ? (
+        <View className="flex flex-row gap-2 m-auto">
+          <Ionicons name="lock-closed-outline" color={"#737373"} size={16} />
+          <Text className="font-montserrat text-sm text-neutral-500">
+            This is a private account, follow to see posts!
+          </Text>
+        </View>
+      ) : (
+        <ProfilePostFeed profileId={profile.id} />
+      )}
 
       {isProfilePictureModalOpen && (
         <ProfilePictureModal
