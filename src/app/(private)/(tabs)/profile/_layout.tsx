@@ -14,7 +14,7 @@ export default function _layout() {
       <Stack.Screen
         name="index"
         options={{
-          title: profile?.username,
+          // title: profile?.username,
           headerRight: () => (
             <TouchableOpacity onPress={() => signOut()}>
               <Ionicons name="log-out-outline" color={"white"} size={24} />

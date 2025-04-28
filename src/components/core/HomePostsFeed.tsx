@@ -12,7 +12,7 @@ export default function HomePostsFeed() {
     setIsFetchingPost(true);
     const { data, error } = await supabase
       .from("posts")
-      .select("*, profile:profiles(username, avatar)");
+      .select("*, profile:profiles(id, username, avatar)");
     if (error) {
       console.log(error);
     }

@@ -23,11 +23,15 @@ export default function TabNavigator() {
           borderTopWidth: 0,
         },
       }}
-      initialRouteName="index"
+      initialRouteName="home"
     >
+      <Tabs.Screen name="index" options={{ href: null }} />
+
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
+          headerShown: false,
+
           title: "Instagram",
           headerTitleStyle: { display: "none" },
           headerLeft: () => {

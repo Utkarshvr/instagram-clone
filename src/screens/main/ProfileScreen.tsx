@@ -7,7 +7,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, router } from "expo-router";
+import { Link, router, useNavigation } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { ProfileType } from "@/types/supabase-schema-types";
@@ -111,6 +111,14 @@ const ProfileScreen = ({ profile_id }: Props) => {
   const showProfilePicture = () => {
     setIsProfilePictureModalOpen(true);
   };
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: profile?.username,
+    });
+  }, [navigation, profile]);
 
   // Handle Errors & Loading
   if (!profile_id || !MyProfile) return <ErrorScreen message="No profile id" />;
