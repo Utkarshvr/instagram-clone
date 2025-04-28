@@ -79,10 +79,7 @@ export default function PostCard({ post }: { post: PostType }) {
       <View className="p-4">
         <View>
           <Caption
-            caption={
-              post.caption +
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid fugiat totam officiis ratione, rerum eaque dolor delectus ea, blanditiis quaerat quod aspernatur veritatis expedita quibusdam fuga beatae amet tempore nobis?"
-            }
+            caption={post.caption}
             link={{
               pathname: "/home/profile/[profile_id]",
               params: { profile_id: post.profile.id },

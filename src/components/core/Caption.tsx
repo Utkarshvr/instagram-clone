@@ -44,11 +44,6 @@ export default function Caption({
         <Text className=" font-montSemiBold">{profile.username}</Text>
       </Link>{" "}
       {caption}
-      {lengthMore && !textShown ? (
-        <Pressable onPress={showFullCaption}>
-          <Text className="text-blue-400"> more</Text>
-        </Pressable>
-      ) : null}
     </Text>
   );
 }

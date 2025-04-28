@@ -87,6 +87,8 @@ export default function MediaCarousel({
           backgroundColor: "rgba(0,0,0,0.5)",
           padding: 8,
           borderRadius: 100,
+
+          display: isReadOnly && media.length === 1 ? "none" : "flex",
         }}
         onLayout={(event) => {
           const { width } = event.nativeEvent.layout;

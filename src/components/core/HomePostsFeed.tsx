@@ -12,11 +12,12 @@ export default function HomePostsFeed() {
     setIsFetchingPost(true);
     const { data, error } = await supabase
       .from("posts")
-      .select("*, profile:profiles(id, username, avatar)");
+      .select("*, profile:profiles(id, username, avatar)")
+      .order("created_at", { ascending: false });
+
     if (error) {
       console.log(error);
     }
-    console.log(data);
     setPosts(data as PostType[]);
     setIsFetchingPost(false);
   };
@@ -24,13 +25,12 @@ export default function HomePostsFeed() {
     fetchPosts();
   }, []);
 
+  if (isFetchingPost) return null;
+
   return (
     <ScrollView
       refreshControl={
-        <RefreshControl
-          refreshing={isFetchingPost}
-          onRefresh={fetchPosts}
-        />
+        <RefreshControl refreshing={isFetchingPost} onRefresh={fetchPosts} />
       }
     >
       {posts.map((post) => (

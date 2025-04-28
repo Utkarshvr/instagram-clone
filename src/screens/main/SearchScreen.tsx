@@ -1,4 +1,13 @@
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Platform,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import useSearchStore from "@/store/useSearchStore";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useEffect } from "react";
@@ -32,17 +41,23 @@ export default function SearchScreen() {
       setIsSearching(false);
     };
 
+    if (debouncedText.length === 0) {
+      setProfiles([]);
+      setIsSearching(false);
+      return;
+    }
+
     fetchUsers();
   }, [debouncedText]); // Run only when debouncedText changes
 
   return (
     <SafeAreaView className="bg-neutral-950 flex-1">
-      {!isSearching && profiles.length > 0 ? (
+      {!isSearching && profiles.length > 0 && (
         <FlatList
           data={profiles}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity
+            <Pressable
               onPress={() =>
                 router.push({
                   pathname: "/explore/profile/[profile_id]",
@@ -50,6 +65,12 @@ export default function SearchScreen() {
                 })
               }
               className="p-4 w-full"
+              android_ripple={{ color: "#171717", borderless: false }}
+              style={({ pressed }) => [
+                {
+                  opacity: pressed && Platform.OS === "ios" ? 0.5 : 1,
+                },
+              ]}
             >
               <View className="flex-row gap-2 items-center">
                 <Image
@@ -66,21 +87,32 @@ export default function SearchScreen() {
                     {item.username}
                   </Text>
 
-                  <Text className="text-neutral-300 font-montserrat">
-                    {item.name}
-                  </Text>
+                  {item.name && (
+                    <Text className="text-neutral-300 font-montserrat">
+                      {item.name}
+                    </Text>
+                  )}
                 </View>
               </View>
-            </TouchableOpacity>
+            </Pressable>
           )}
         />
-      ) : (
-        <Text className="text-neutral-400">No users found</Text>
       )}
-      {isSearching && (
-        <Text className="text-neutral-300 font-montserratSemiBold">
-          Searching...
+      {!isSearching && text.length === 0 && (
+        <Text className="p-4 text-neutral-400">
+          Search for a user by username
         </Text>
+      )}
+
+      {isSearching ? (
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size={"small"} color={"#fafafa"} />
+        </View>
+      ) : (
+        text.length > 0 &&
+        profiles.length === 0 && (
+          <Text className="p-4 text-neutral-400">No users found</Text>
+        )
       )}
     </SafeAreaView>
   );

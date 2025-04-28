@@ -30,6 +30,12 @@ export default function _layout() {
           animation: "slide_from_right",
         }}
       />
+      <Stack.Screen
+        name="post/[post_id]"
+        options={{
+          title: "Post",
+        }}
+      />
     </Stack>
   );
 }

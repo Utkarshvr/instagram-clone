@@ -1,13 +1,22 @@
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
-import { Image, View, Dimensions, TouchableOpacity } from "react-native";
+import {
+  Image,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import { PostType } from "@/types/supabase-schema-types";
 import { router } from "expo-router";
+import LoadingScreen from "@/screens/common/LoadingScreen";
 
 const screenWidth = Dimensions.get("window").width;
 
-export default function ProfilePostFeed({ profileId }: { profileId: string }) {
+export default function ExploreFeed() {
   const [posts, setPosts] = useState<(PostType & { url: string })[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getUrls = async (givenPosts: PostType[]) => {
     const { data } = await supabase.storage.from("posts").createSignedUrls(
@@ -20,11 +29,11 @@ export default function ProfilePostFeed({ profileId }: { profileId: string }) {
   const fetchPosts = async () => {
     if (posts.length > 0) return;
 
+    setIsLoading(true);
     // setIsFetchingPost(true);
     const { data, error } = await supabase
       .from("posts")
       .select("id, media")
-      .eq("user_id", profileId)
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -38,22 +47,33 @@ export default function ProfilePostFeed({ profileId }: { profileId: string }) {
         url: urls[index],
       }))
     );
+    setIsLoading(false);
   };
   useEffect(() => {
-    if (!profileId) return;
     fetchPosts();
-  }, [profileId]);
+  }, []);
 
+  if (isLoading) return <LoadingScreen />;
   if (posts.length === 0) return null;
 
   return (
-    <View className="w-full flex-row flex-wrap gap-2">
+    <ScrollView
+      className="w-full "
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={fetchPosts} />
+      }
+      contentContainerStyle={{
+        flex: 1,
+        flexWrap: "wrap",
+        flexDirection: "row",
+      }}
+    >
       {posts.map((post) => (
         <TouchableOpacity
           key={post.id}
           onPress={() =>
             router.push({
-              pathname: "/profile/post/[post_id]",
+              pathname: "/explore/post/[post_id]",
               params: {
                 post_id: post.id,
               },
@@ -66,6 +86,6 @@ export default function ProfilePostFeed({ profileId }: { profileId: string }) {
           />
         </TouchableOpacity>
       ))}
-    </View>
+    </ScrollView>
   );
 }

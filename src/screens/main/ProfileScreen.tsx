@@ -212,15 +212,15 @@ const ProfileScreen = ({ profile_id }: Props) => {
               </Text>
             </View>
             <TouchableOpacity
-              onPress={() =>
-                router.push({
-                  pathname: "/(private)/(tabs)/profile/follow-list",
-                  // params: {
-                  //   profile_id: profile.id,
-                  //   type: "followers",
-                  // },
-                })
-              }
+              // onPress={() =>
+              //   router.push({
+              //     pathname: "/(private)/(tabs)/profile/follow-list",
+              //     // params: {
+              //     //   profile_id: profile.id,
+              //     //   type: "followers",
+              //     // },
+              //   })
+              // }
               className="gap-1 items-center"
             >
               <Text className="text-neutral-200 font-montserrat">
@@ -231,15 +231,15 @@ const ProfileScreen = ({ profile_id }: Props) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                router.push({
-                  pathname: "/(private)/(tabs)/profile/follow-list/following",
-                  // params: {
-                  //   profile_id: profile.id,
-                  //   type: "following",
-                  // },
-                })
-              }
+              // onPress={() =>
+              //   router.push({
+              //     pathname: "/(private)/(tabs)/profile/follow-list/following",
+              //     // params: {
+              //     //   profile_id: profile.id,
+              //     //   type: "following",
+              //     // },
+              //   })
+              // }
               className="gap-1 items-center"
             >
               <Text className="text-neutral-200 font-montserrat">
@@ -285,23 +285,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
         )}
       </View>
 
-      {/* <View className="w-full flex flex-row flex-wrap">
-        {!isFetchingPosts &&
-          Posts &&
-          Posts.map((post) => (
-            <PostCard key={post.id} post={post} isFeatured />
-          ))}
-        {!isFetchingPosts && !hasAccess && (
-          <View className="flex flex-row gap-2 m-auto">
-            <Ionicons name="lock-closed-outline" color={"#737373"} size={16} />
-            <Text className="font-montserrat text-sm text-neutral-500">
-              This is a private account, follow to see posts!
-            </Text>
-          </View>
-        )}
-      
-      </View> */}
-
+      {/* Posts */}
       {!doesCurrentUserFollowTargetProfile.isLoading &&
       !isMe &&
       !profile.is_account_private &&

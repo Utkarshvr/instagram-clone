@@ -29,6 +29,10 @@ export default function _layout() {
         name="profile/[profile_id]"
         options={{ title: "Profile" }}
       />
+      <Stack.Screen
+        name="post/[post_id]"
+        options={{ title: "Post" }}
+      />
     </Stack>
   );
 }
