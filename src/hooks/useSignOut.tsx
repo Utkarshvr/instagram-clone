@@ -12,7 +12,7 @@ export function useSignOut() {
     const { error } = await supabase.auth.signOut();
     setIsSigningOut(false);
     if (error) {
-      return console.log(error);
+      return // console.log(error);
     }
     resetSession();
   };

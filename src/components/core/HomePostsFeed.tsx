@@ -16,7 +16,7 @@ export default function HomePostsFeed() {
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.log(error);
+      // console.log(error);
     }
     setPosts(data as PostType[]);
     setIsFetchingPost(false);

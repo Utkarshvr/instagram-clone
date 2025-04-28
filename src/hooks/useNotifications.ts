@@ -35,7 +35,7 @@ export function useNotifications() {
         .select()
         .eq("user_id", userId)
         .order("created_at", { ascending: false });
-      console.log("In fetchNotifications data: ", data);
+      // console.log("In fetchNotifications data: ", data);
 
       if (notificationError) {
         throw notificationError;

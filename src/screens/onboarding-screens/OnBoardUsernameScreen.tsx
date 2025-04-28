@@ -32,7 +32,7 @@ export default function OnBoardUsernameScreen() {
       username: form_value.username,
     });
     setIsCreatingUsername(false);
-    console.log(error);
+    // console.log(error);
     if (error) {
       if (error.code === "23505") {
         return ToastAndroid.showWithGravityAndOffset(

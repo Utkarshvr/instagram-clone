@@ -42,11 +42,11 @@ export default function CreatePostScreen() {
   }, []);
 
   const handleUpload = async () => {
-    if (media.length === 0) return console.log("No media selected");
+    if (media.length === 0) return // console.log("No media selected");
 
     setIsUploading(true);
 
-    console.log({ media });
+    // console.log({ media });
 
     // Upload to supabase storage
     const uploadRes = await uploadMultipleFilesToSupabaseStorage(
@@ -58,14 +58,14 @@ export default function CreatePostScreen() {
       { filePath: `${profile?.id}/__REPLACE__`, isReplacable: true },
       "posts"
     );
-    console.log({ uploadRes });
+    // console.log({ uploadRes });
 
     if (uploadRes.failedUploads.length > 0) {
       // toastMsg("");
-      console.log(
-        "The following files failed to upload: ",
-        uploadRes.failedUploads
-      );
+      // console.log(
+      //   "The following files failed to upload: ",
+      //   uploadRes.failedUploads
+      // );
       // return setIsUploading(false);
     }
 
@@ -85,7 +85,7 @@ export default function CreatePostScreen() {
 
     if (error) {
       setIsUploading(false);
-      return console.log(error);
+      return // console.log(error);
     }
     setIsUploading(false);
     toastMsg("Post created successfully");

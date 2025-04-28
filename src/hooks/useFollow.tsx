@@ -32,16 +32,16 @@ export function useFollow(targetUserId: string, is_account_private: boolean) {
       ]);
 
       if (followRes.error) {
-        console.log("Follow fetch error:", followRes.error);
+        // console.log("Follow fetch error:", followRes.error);
         setStatus("not_following");
       } else {
         setStatus(followRes.data?.status || "not_following");
       }
 
-      console.log({ followedByRes });
+      // console.log({ followedByRes });
 
       if (followedByRes.error) {
-        console.log("Reverse follow check error:", followedByRes.error);
+        // console.log("Reverse follow check error:", followedByRes.error);
         setIsFollowedByTarget(false);
       } else {
         setIsFollowedByTarget(!!followedByRes.data);
@@ -60,7 +60,7 @@ export function useFollow(targetUserId: string, is_account_private: boolean) {
     });
 
     if (error) {
-      console.log(error);
+      // console.log(error);
       setStatus("not_following");
       return;
     }
@@ -75,7 +75,7 @@ export function useFollow(targetUserId: string, is_account_private: boolean) {
       .eq("follower_id", currentUser?.id)
       .eq("following_id", targetUserId);
 
-    if (error) return console.log(error);
+    if (error) return // console.log(error);
     setStatus("not_following");
   };
 

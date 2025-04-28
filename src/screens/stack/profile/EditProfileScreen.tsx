@@ -55,7 +55,7 @@ export default function EditProfileScreen() {
 
     if (!result.canceled) {
       const img = result.assets[0];
-      // console.log({ uri: img.uri });
+      // // console.log({ uri: img.uri });
       setForm_value((prev) => ({ ...prev, avatar_url: img.uri }));
     }
   };
@@ -144,7 +144,7 @@ export default function EditProfileScreen() {
       toastMsg("Profile updated");
       router.back();
     } catch (error) {
-      console.log("Error updating profile: ", error);
+      // console.log("Error updating profile: ", error);
     } finally {
       setIsUpdatingProfile(false);
     }

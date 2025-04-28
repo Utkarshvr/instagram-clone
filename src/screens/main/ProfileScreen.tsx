@@ -95,7 +95,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
       .eq("status", "pending")
       .single();
 
-    console.log({ data, error });
+    // console.log({ data, error });
     if (data) setHasReceivedFollowRequest(true);
   }
 
@@ -131,7 +131,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
   };
 
   useEffect(() => {
-    if (!profile_id) return console.log("No profile id");
+    if (!profile_id) return // console.log("No profile id");
 
     onRefresh();
   }, [profile_id]);

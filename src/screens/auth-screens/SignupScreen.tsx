@@ -23,7 +23,7 @@ export default function SignupScreen() {
   const isFormValid = form_value.email !== "" && form_value.password !== "";
 
   const [isRegistering, setIsRegistering] = useState(false);
-  console.log({ redirectUrl });
+  // console.log({ redirectUrl });
   async function registerAccount() {
     setIsRegistering(true);
     const { error, data } = await supabase.auth.signUp({

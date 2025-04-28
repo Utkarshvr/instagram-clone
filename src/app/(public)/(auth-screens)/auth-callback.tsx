@@ -9,7 +9,7 @@ export default function AuthCallbackScreen() {
   useEffect(() => {
     if (!url) return;
 
-    // console.log("Using deep link URL in auth callback:", url);
+    // // console.log("Using deep link URL in auth callback:", url);
 
     const parsed = new URL(url);
     const fragment = parsed.hash.substring(1);
@@ -26,7 +26,7 @@ export default function AuthCallbackScreen() {
             console.error("Session Error:", error);
           } else {
             // The authstatechange will handle the redirect
-            // console.log("Session set successfully");
+            // // console.log("Session set successfully");
             setUrl("");
           }
         });

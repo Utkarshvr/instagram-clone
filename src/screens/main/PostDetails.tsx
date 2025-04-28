@@ -21,7 +21,7 @@ export default function PostDetails() {
       .maybeSingle();
 
     if (error) {
-      console.log(error);
+      // console.log(error);
     }
     setPost(data as PostType);
     setIsFetchingPost(false);

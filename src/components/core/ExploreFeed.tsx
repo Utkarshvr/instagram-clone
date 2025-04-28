@@ -37,7 +37,7 @@ export default function ExploreFeed() {
       .order("created_at", { ascending: false });
 
     if (error) {
-      return console.log(error);
+      return // console.log(error);
     }
 
     const urls = await getUrls(data as PostType[]);

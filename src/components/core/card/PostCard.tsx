@@ -24,9 +24,9 @@ export default function PostCard({ post }: { post: PostType }) {
       );
 
     if (error) {
-      console.log(error);
+      // console.log(error);
     }
-    console.log({ data, error });
+    // console.log({ data, error });
 
     setMedia(
       data?.map(

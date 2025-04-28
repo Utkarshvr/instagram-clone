@@ -18,7 +18,7 @@ export const uploadToSupabaseStorage = async (
   userId: string,
   existingFilePath?: string
 ) => {
-  if (!userId) return console.log("User ID is required");
+  if (!userId) return // console.log("User ID is required");
 
   try {
     // 1. Delete previous avatar if exists
@@ -27,12 +27,12 @@ export const uploadToSupabaseStorage = async (
         .from("public-bucket")
         .remove([existingFilePath]);
 
-      console.log("Delete old avatar", { data, deleteError });
+      // console.log("Delete old avatar", { data, deleteError });
 
       if (deleteError) {
         console.warn("Failed to delete old avatar:", deleteError);
       } else {
-        console.log("Old avatar deleted:", existingFilePath);
+        // console.log("Old avatar deleted:", existingFilePath);
       }
     }
 

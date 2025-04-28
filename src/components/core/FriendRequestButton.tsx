@@ -25,8 +25,8 @@ export default function FriendRequestButton({
     null
   );
 
-  console.log("follower_id: ", senderId);
-  console.log("following_id: ", receiverId);
+  // console.log("follower_id: ", senderId);
+  // console.log("following_id: ", receiverId);
 
   const handleAccept = async () => {
     setLoading(true);
@@ -37,7 +37,7 @@ export default function FriendRequestButton({
       .eq("follower_id", senderId)
       .eq("following_id", receiverId);
 
-    console.log({ data, error });
+    // console.log({ data, error });
     setLoading(false);
 
     if (error) {

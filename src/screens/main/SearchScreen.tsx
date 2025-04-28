@@ -34,7 +34,7 @@ export default function SearchScreen() {
         .select("id, username, name, avatar")
         .ilike("username", `%${debouncedText}%`);
 
-      console.log({ data });
+      // console.log({ data });
 
       if (data) setProfiles(data as ProfileType[]);
 
