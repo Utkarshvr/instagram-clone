@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { Link, router } from "expo-router";
 import dayjs from "dayjs";
 import Caption from "../Caption";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 type CarouselMediaType = {
   uri: string;
@@ -59,10 +60,7 @@ export default function PostCard({ post }: { post: PostType }) {
             }
             className="flex-row items-center gap-2"
           >
-            <Image
-              source={{ uri: post.profile.avatar.publicUrl }}
-              className="h-8 w-8 rounded-full"
-            />
+            <UserAvatar avatar={post.profile.avatar} />
             <Text className="ml-3 text-neutral-50 font-montSemiBold">
               {post.profile.username}
             </Text>

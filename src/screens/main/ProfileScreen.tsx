@@ -131,7 +131,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
   };
 
   useEffect(() => {
-    if (!profile_id) return // console.log("No profile id");
+    if (!profile_id) return; // console.log("No profile id");
 
     onRefresh();
   }, [profile_id]);
@@ -156,8 +156,8 @@ const ProfileScreen = ({ profile_id }: Props) => {
   }, [navigation, profile]);
 
   // Handle Errors & Loading
-  if (!profile_id || !MyProfile) return <ErrorScreen message="No profile id" />;
   if (isLoading) return <LoadingScreen message="Fetching profile..." />;
+  if (!profile_id || !MyProfile) return <ErrorScreen message="No profile id" />;
   if (!profile) return <ErrorScreen message="Profile not found" />;
 
   // Main Render
@@ -231,15 +231,15 @@ const ProfileScreen = ({ profile_id }: Props) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              // onPress={() =>
-              //   router.push({
-              //     pathname: "/(private)/(tabs)/profile/follow-list/following",
-              //     // params: {
-              //     //   profile_id: profile.id,
-              //     //   type: "following",
-              //     // },
-              //   })
-              // }
+              onPress={() =>
+                router.push({
+                  pathname: "/(private)/(tabs)/profile/follow-list/following",
+                  // params: {
+                  //   profile_id: profile.id,
+                  //   type: "following",
+                  // },
+                })
+              }
               className="gap-1 items-center"
             >
               <Text className="text-neutral-200 font-montserrat">
@@ -288,7 +288,7 @@ const ProfileScreen = ({ profile_id }: Props) => {
       {/* Posts */}
       {!doesCurrentUserFollowTargetProfile.isLoading &&
       !isMe &&
-      !profile.is_account_private &&
+      profile.is_account_private &&
       !doesCurrentUserFollowTargetProfile.isFollowing ? (
         <View className="flex flex-row gap-2 m-auto">
           <Ionicons name="lock-closed-outline" color={"#737373"} size={16} />
