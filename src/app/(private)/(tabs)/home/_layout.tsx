@@ -31,6 +31,10 @@ export default function _layout() {
         name="profile/[profile_id]"
         options={{ title: "" }}
       />
+      <Stack.Screen
+        name="profile/follow-list"
+        options={{ title: "" }}
+      />
     </Stack>
   );
 }

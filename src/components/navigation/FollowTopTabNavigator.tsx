@@ -18,17 +18,21 @@ export const MaterialTopTabs = withLayoutContext<
 export default function FollowTopTabNavigator() {
   return (
     <MaterialTopTabs
-    //   screenOptions={{
-    //     lazy: true, // <--- THIS IS IMPORTANT
-    //     swipeEnabled: true, // optional but better for touch devices
-    //     tabBarIndicatorStyle: {
-    //       backgroundColor: "black", // you can customize color
-    //       height: 2, // slim indicator like Instagram
-    //     },
-    //     tabBarLabelStyle: {
-    //       fontWeight: "bold",
-    //     },
-    //   }}
+      screenOptions={{
+        lazy: true, // <--- THIS IS IMPORTANT
+        swipeEnabled: true, // optional but better for touch devices
+        tabBarIndicatorStyle: {
+          backgroundColor: "white", // you can customize color
+          height: 2, // slim indicator like Instagram
+        },
+        tabBarLabelStyle: {
+          color: "white",
+          fontWeight: "bold",
+        },
+        tabBarStyle: {
+          backgroundColor: "black",
+        },
+      }}
     >
       <MaterialTopTabs.Screen name="index" options={{ title: "Followers" }} />
       <MaterialTopTabs.Screen

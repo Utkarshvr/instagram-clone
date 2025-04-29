@@ -7,7 +7,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, router, useNavigation } from "expo-router";
+import { Href, Link, router, useNavigation, useSegments } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { ProfileType } from "@/types/supabase-schema-types";
@@ -155,6 +155,14 @@ const ProfileScreen = ({ profile_id }: Props) => {
     }
   }, [navigation, profile]);
 
+  const segments = useSegments();
+  const thirdSegment = segments[2];
+
+  const pathName: Href =
+    thirdSegment === "home"
+      ? "/(private)/(tabs)/home/profile/follow-list"
+      : "/(private)/(tabs)/profile/follow-list";
+
   // Handle Errors & Loading
   if (isLoading) return <LoadingScreen message="Fetching profile..." />;
   if (!profile_id || !MyProfile) return <ErrorScreen message="No profile id" />;
@@ -212,15 +220,14 @@ const ProfileScreen = ({ profile_id }: Props) => {
               </Text>
             </View>
             <TouchableOpacity
-              // onPress={() =>
-              //   router.push({
-              //     pathname: "/(private)/(tabs)/profile/follow-list",
-              //     // params: {
-              //     //   profile_id: profile.id,
-              //     //   type: "followers",
-              //     // },
-              //   })
-              // }
+              onPress={() =>
+                router.push({
+                  pathname: pathName,
+                  params: {
+                    profile_id: profile.id,
+                  },
+                })
+              }
               className="gap-1 items-center"
             >
               <Text className="text-neutral-200 font-montserrat">
@@ -233,11 +240,10 @@ const ProfileScreen = ({ profile_id }: Props) => {
             <TouchableOpacity
               onPress={() =>
                 router.push({
-                  pathname: "/(private)/(tabs)/profile/follow-list/following",
-                  // params: {
-                  //   profile_id: profile.id,
-                  //   type: "following",
-                  // },
+                  pathname: `${pathName}/following`,
+                  params: {
+                    profile_id: profile.id,
+                  },
                 })
               }
               className="gap-1 items-center"
