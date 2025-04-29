@@ -158,11 +158,6 @@ const ProfileScreen = ({ profile_id }: Props) => {
   const segments = useSegments();
   const thirdSegment = segments[2];
 
-  const pathName: Href =
-    thirdSegment === "home"
-      ? "/(private)/(tabs)/home/profile/follow-list"
-      : "/(private)/(tabs)/profile/follow-list";
-
   // Handle Errors & Loading
   if (isLoading) return <LoadingScreen message="Fetching profile..." />;
   if (!profile_id || !MyProfile) return <ErrorScreen message="No profile id" />;
@@ -222,7 +217,10 @@ const ProfileScreen = ({ profile_id }: Props) => {
             <TouchableOpacity
               onPress={() =>
                 router.push({
-                  pathname: pathName,
+                  pathname:
+                    thirdSegment === "home"
+                      ? "/(private)/(tabs)/home/profile/follow-list"
+                      : "/(private)/(tabs)/profile/follow-list",
                   params: {
                     profile_id: profile.id,
                   },
@@ -240,7 +238,10 @@ const ProfileScreen = ({ profile_id }: Props) => {
             <TouchableOpacity
               onPress={() =>
                 router.push({
-                  pathname: `${pathName}/following`,
+                  pathname:
+                    thirdSegment === "home"
+                      ? "/(private)/(tabs)/home/profile/follow-list/following"
+                      : "/(private)/(tabs)/profile/follow-list/following",
                   params: {
                     profile_id: profile.id,
                   },
