@@ -3,7 +3,7 @@ import { PostType } from "@/types/supabase-schema-types";
 import MediaCarousel from "../MediaCarousel";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Link, router } from "expo-router";
+import { Link, router, useSegments } from "expo-router";
 import dayjs from "dayjs";
 import Caption from "../Caption";
 import UserAvatar from "@/components/ui/UserAvatar";
@@ -46,6 +46,9 @@ export default function PostCard({ post }: { post: PostType }) {
     }
   }, [post]);
 
+  const segments = useSegments();
+  const thirdSegment = segments[2];
+
   return (
     <View className="w-full rounded-lg overflow-hidden mb-4">
       {/* Header */}
@@ -54,7 +57,12 @@ export default function PostCard({ post }: { post: PostType }) {
           <TouchableOpacity
             onPress={() =>
               router.push({
-                pathname: "/home/profile/[profile_id]",
+                pathname:
+                  thirdSegment === "home"
+                    ? "/(private)/(tabs)/home/profile/[profile_id]"
+                    : thirdSegment === "explore"
+                    ? "/(private)/(tabs)/explore/profile/[profile_id]"
+                    : "/(private)/(tabs)/profile",
                 params: { profile_id: post.profile.id },
               })
             }

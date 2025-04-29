@@ -220,6 +220,8 @@ const ProfileScreen = ({ profile_id }: Props) => {
                   pathname:
                     thirdSegment === "home"
                       ? "/(private)/(tabs)/home/profile/follow-list"
+                      : thirdSegment === "explore"
+                      ? "/(private)/(tabs)/explore/profile/follow-list"
                       : "/(private)/(tabs)/profile/follow-list",
                   params: {
                     profile_id: profile.id,
@@ -241,6 +243,8 @@ const ProfileScreen = ({ profile_id }: Props) => {
                   pathname:
                     thirdSegment === "home"
                       ? "/(private)/(tabs)/home/profile/follow-list/following"
+                      : thirdSegment === "explore"
+                      ? "/(private)/(tabs)/explore/profile/follow-list/following"
                       : "/(private)/(tabs)/profile/follow-list/following",
                   params: {
                     profile_id: profile.id,
