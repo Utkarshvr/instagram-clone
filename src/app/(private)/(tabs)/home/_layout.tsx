@@ -1,3 +1,4 @@
+import NavigateToChatButton from "@/components/core/NavigateToChatButton";
 import { Stack } from "expo-router";
 import { Image } from "react-native";
 
@@ -25,16 +26,13 @@ export default function _layout() {
               />
             );
           },
+          headerRight: () => {
+            return <NavigateToChatButton />;
+          },
         }}
       />
-      <Stack.Screen
-        name="profile/[profile_id]"
-        options={{ title: "" }}
-      />
-      <Stack.Screen
-        name="profile/follow-list"
-        options={{ title: "" }}
-      />
+      <Stack.Screen name="profile/[profile_id]" options={{ title: "" }} />
+      <Stack.Screen name="profile/follow-list" options={{ title: "" }} />
     </Stack>
   );
 }

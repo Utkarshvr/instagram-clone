@@ -6,6 +6,7 @@ export default function StackNavigator() {
     <Stack screenOptions={{ ...headerStyle, animationTypeForReplace: "push" }}>
       <Stack.Screen name="edit-profile" options={{ title: "Edit profile" }} />
       <Stack.Screen name="create" options={{ title: "Create Post" }} />
+      <Stack.Screen name="chat" options={{ title: "Chat" }} />
       {/* <Stack.Screen name="post/[postId]" options={{ title: "Post" }} />
       <Stack.Screen
         name="create"
