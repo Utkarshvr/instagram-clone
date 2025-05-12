@@ -26,9 +26,9 @@ export default function _layout() {
               />
             );
           },
-          headerRight: () => {
-            return <NavigateToChatButton />;
-          },
+          // headerRight: () => {
+          //   return <NavigateToChatButton />;
+          // },
         }}
       />
       <Stack.Screen name="profile/[profile_id]" options={{ title: "" }} />
