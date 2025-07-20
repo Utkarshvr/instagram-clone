@@ -4,8 +4,8 @@ import {
   Image,
   Platform,
   Pressable,
+  SafeAreaView,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import useSearchStore from "@/store/useSearchStore";
@@ -15,7 +15,6 @@ import { useState } from "react";
 import { ProfileType } from "@/types/supabase-schema-types";
 import { supabase } from "@/lib/supabase";
 import { router } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SearchScreen() {
   const { text } = useSearchStore();
