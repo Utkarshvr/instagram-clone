@@ -20,21 +20,18 @@ export default function PostCard({ post }: { post: PostType }) {
     const { data, error } = await supabase.storage
       .from("posts")
       .createSignedUrls(
-        post.media.map((m) => m.path),
+        (post.media ?? [])?.map((m) => m.path),
         60
       );
 
-    if (error) {
-      // console.log(error);
-    }
-    // console.log({ data, error });
-
     setMedia(
-      data?.map(
+      (data ?? [])?.map(
         (d) =>
           ({
             uri: d.signedUrl,
-            type: post.media.find((m) => m.path === d.path)?.type || "image",
+            type:
+              (post.media ?? []).find((m) => m.path === d.path)?.type ||
+              "image",
           } as CarouselMediaType)
       ) || []
     );

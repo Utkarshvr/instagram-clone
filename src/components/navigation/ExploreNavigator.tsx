@@ -22,17 +22,15 @@ export default function _layout() {
       <Stack.Screen
         name="search"
         options={{
-          headerRight: () => <SearchBar />,
+          headerLeft: () => <SearchBar />,
+          // headerTitle: "",
         }}
       />
       <Stack.Screen
         name="profile/[profile_id]"
         options={{ title: "Profile" }}
       />
-      <Stack.Screen
-        name="post/[post_id]"
-        options={{ title: "Post" }}
-      />
+      <Stack.Screen name="post/[post_id]" options={{ title: "Post" }} />
     </Stack>
   );
 }
